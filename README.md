@@ -92,7 +92,7 @@ pip install -r requirements.txt
 
 ### Required APIs
 
-You will also need the FinnHub API and EODHD API for financial data. All of our code is implemented with the free tier.
+You will also need the FinnHub API for financial data. All of our code is implemented with the free tier.
 ```bash
 export FINNHUB_API_KEY=$YOUR_FINNHUB_API_KEY
 ```
