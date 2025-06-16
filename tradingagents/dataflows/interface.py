@@ -704,10 +704,10 @@ def get_YFin_data(
 
 def get_stock_news_openai(ticker, curr_date):
     config = get_config()
-    client = OpenAI(base_url=config["openai_backend"])
+    client = OpenAI()
 
     response = client.responses.create(
-        model=config["quick_think_llm"],
+        model="gpt-4.1-mini",
         input=[
             {
                 "role": "system",
@@ -739,10 +739,10 @@ def get_stock_news_openai(ticker, curr_date):
 
 def get_global_news_openai(curr_date):
     config = get_config()
-    client = OpenAI(base_url=config["openai_backend"])
+    client = OpenAI()
 
     response = client.responses.create(
-        model=config["quick_think_llm"],
+        model="gpt-4.1-mini",
         input=[
             {
                 "role": "system",
@@ -774,10 +774,10 @@ def get_global_news_openai(curr_date):
 
 def get_fundamentals_openai(ticker, curr_date):
     config = get_config()
-    client = OpenAI(base_url=config["openai_backend"])
+    client = OpenAI()
 
     response = client.responses.create(
-        model=config["quick_think_llm"],
+        model="gpt-4.1-mini",
         input=[
             {
                 "role": "system",
