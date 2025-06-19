@@ -295,10 +295,27 @@ def update_display(layout, spinner_text=None):
 
     # Add regular messages
     for timestamp, msg_type, content in message_buffer.messages:
+        # Convert content to string if it's not already
+        content_str = content
+        if isinstance(content, list):
+            # Handle list of content blocks (Anthropic format)
+            text_parts = []
+            for item in content:
+                if isinstance(item, dict):
+                    if item.get('type') == 'text':
+                        text_parts.append(item.get('text', ''))
+                    elif item.get('type') == 'tool_use':
+                        text_parts.append(f"[Tool: {item.get('name', 'unknown')}]")
+                else:
+                    text_parts.append(str(item))
+            content_str = ' '.join(text_parts)
+        elif not isinstance(content_str, str):
+            content_str = str(content)
+            
         # Truncate message content if too long
-        if isinstance(content, str) and len(content) > 200:
-            content = content[:197] + "..."
-        all_messages.append((timestamp, msg_type, content))
+        if len(content_str) > 200:
+            content_str = content_str[:197] + "..."
+        all_messages.append((timestamp, msg_type, content_str))
 
     # Sort by timestamp
     all_messages.sort(key=lambda x: x[0])
@@ -444,20 +461,30 @@ def get_user_selections():
     )
     selected_research_depth = select_research_depth()
 
-    # Step 5: Thinking agents
+    # Step 5: OpenAI backend
     console.print(
         create_question_box(
-            "Step 5: Thinking Agents", "Select your thinking agents for analysis"
+            "Step 5: OpenAI backend", "Select which service to talk to"
         )
     )
-    selected_shallow_thinker = select_shallow_thinking_agent()
-    selected_deep_thinker = select_deep_thinking_agent()
+    selected_llm_provider, backend_url = select_llm_provider()
+    
+    # Step 6: Thinking agents
+    console.print(
+        create_question_box(
+            "Step 6: Thinking Agents", "Select your thinking agents for analysis"
+        )
+    )
+    selected_shallow_thinker = select_shallow_thinking_agent(selected_llm_provider)
+    selected_deep_thinker = select_deep_thinking_agent(selected_llm_provider)
 
     return {
         "ticker": selected_ticker,
         "analysis_date": analysis_date,
         "analysts": selected_analysts,
         "research_depth": selected_research_depth,
+        "llm_provider": selected_llm_provider.lower(),
+        "backend_url": backend_url,
         "shallow_thinker": selected_shallow_thinker,
         "deep_thinker": selected_deep_thinker,
     }
@@ -683,6 +710,24 @@ def update_research_team_status(status):
     for agent in research_team:
         message_buffer.update_agent_status(agent, status)
 
+def extract_content_string(content):
+    """Extract string content from various message formats."""
+    if isinstance(content, str):
+        return content
+    elif isinstance(content, list):
+        # Handle Anthropic's list format
+        text_parts = []
+        for item in content:
+            if isinstance(item, dict):
+                if item.get('type') == 'text':
+                    text_parts.append(item.get('text', ''))
+                elif item.get('type') == 'tool_use':
+                    text_parts.append(f"[Tool: {item.get('name', 'unknown')}]")
+            else:
+                text_parts.append(str(item))
+        return ' '.join(text_parts)
+    else:
+        return str(content)
 
 def run_analysis():
     # First get all user selections
@@ -694,6 +739,8 @@ def run_analysis():
     config["max_risk_discuss_rounds"] = selections["research_depth"]
     config["quick_think_llm"] = selections["shallow_thinker"]
     config["deep_think_llm"] = selections["deep_thinker"]
+    config["backend_url"] = selections["backend_url"]
+    config["llm_provider"] = selections["llm_provider"].lower()
 
     # Initialize the graph
     graph = TradingAgentsGraph(
@@ -754,7 +801,7 @@ def run_analysis():
 
                 # Extract message content and type
                 if hasattr(last_message, "content"):
-                    content = last_message.content
+                    content = extract_content_string(last_message.content)  # Use the helper function
                     msg_type = "Reasoning"
                 else:
                     content = str(last_message)
