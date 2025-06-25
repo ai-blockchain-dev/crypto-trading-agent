@@ -2,6 +2,7 @@ typing-extensions
 langchain-openai
 langchain-experimental
 pandas
+python-dotenv
 yfinance
 praw
 feedparser
