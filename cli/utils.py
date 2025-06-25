@@ -133,6 +133,11 @@ def select_shallow_thinking_agent(provider) -> str:
             ("GPT-4.1-mini - Compact model with good performance", "gpt-4.1-mini"),
             ("GPT-4o - Standard model with solid capabilities", "gpt-4o"),
         ],
+        "qwen": [
+            ("Qwen-Turbo - Fast speed and low cost, suitable for simple tasks", "qwen-turbo"),
+            ("Qwen-Plus - Balanced combination of performance and speed, ideal for moderately complex tasks", "qwen-plus"),
+            ("Qwen-Max - For complex and multi-step tasks", "qwen-max"),
+        ],
         "anthropic": [
             ("Claude Haiku 3.5 - Fast inference and standard capabilities", "claude-3-5-haiku-latest"),
             ("Claude Sonnet 3.5 - Highly capable standard model", "claude-3-5-sonnet-latest"),
@@ -193,6 +198,12 @@ def select_deep_thinking_agent(provider) -> str:
             ("o3 - Full advanced reasoning model", "o3"),
             ("o1 - Premier reasoning and problem-solving model", "o1"),
         ],
+        "qwen": [
+            ("QwQ - Reasoning model. Have reached the level of DeepSeek-R1", "qwq-plus"),
+            ("Qwen-Turbo - Fast speed and low cost, suitable for simple tasks", "qwen-turbo"),
+            ("Qwen-Plus - Balanced combination of performance and speed, ideal for moderately complex tasks", "qwen-plus"),
+            ("Qwen-Max - For complex and multi-step tasks", "qwen-max"),
+        ],
         "anthropic": [
             ("Claude Haiku 3.5 - Fast inference and standard capabilities", "claude-3-5-haiku-latest"),
             ("Claude Sonnet 3.5 - Highly capable standard model", "claude-3-5-sonnet-latest"),
@@ -242,6 +253,7 @@ def select_llm_provider() -> tuple[str, str]:
     # Define OpenAI api options with their corresponding endpoints
     BASE_URLS = [
         ("OpenAI", "https://api.openai.com/v1"),
+        ("Qwen", "https://dashscope.aliyuncs.com/compatible-mode/v1"),
         ("Anthropic", "https://api.anthropic.com/"),
         ("Google", "https://generativelanguage.googleapis.com/v1"),
         ("Openrouter", "https://openrouter.ai/api/v1"),
