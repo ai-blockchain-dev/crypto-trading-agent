@@ -139,6 +139,7 @@ def select_shallow_thinking_agent(provider) -> str:
             ("Qwen-Turbo - Fast speed and low cost, suitable for simple tasks", "qwen-turbo"),
             ("Qwen-Plus - Balanced combination of performance and speed, ideal for moderately complex tasks", "qwen-plus"),
             ("Qwen-Max - For complex and multi-step tasks", "qwen-max"),
+            ("Qwen-Long - For long context tasks", "qwen-long")
         ],
         "anthropic": [
             ("Claude Haiku 3.5 - Fast inference and standard capabilities", "claude-3-5-haiku-latest"),
@@ -205,6 +206,7 @@ def select_deep_thinking_agent(provider) -> str:
             ("Qwen-Turbo - Fast speed and low cost, suitable for simple tasks", "qwen-turbo"),
             ("Qwen-Plus - Balanced combination of performance and speed, ideal for moderately complex tasks", "qwen-plus"),
             ("Qwen-Max - For complex and multi-step tasks", "qwen-max"),
+            ("Qwen-Long - For long context tasks", "qwen-long"),
         ],
         "anthropic": [
             ("Claude Haiku 3.5 - Fast inference and standard capabilities", "claude-3-5-haiku-latest"),
