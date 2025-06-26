@@ -8,5 +8,15 @@ def get_lang():
         return lang_module.LANG
     except Exception:
         # fallback to zh
-        from .zh import LANG
+        from .interface.zh import LANG
         return LANG 
+    
+def get_prompts():
+    lang_code = DEFAULT_CONFIG.get("language", "zh")
+    try:
+        lang_module = importlib.import_module(f"tradingagents.i18n.{lang_code}")
+        return lang_module.PROMPTS
+    except Exception:
+        # fallback to zh
+        from .prompts.zh import PROMPTS
+        return PROMPTS
