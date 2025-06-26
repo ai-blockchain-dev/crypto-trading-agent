@@ -2,8 +2,6 @@ import time
 import json
 from tradingagents.i18n import get_prompts
 
-prompts = get_prompts()
-
 def create_risk_manager(llm, memory):
     def risk_manager_node(state) -> dict:
 
@@ -24,7 +22,7 @@ def create_risk_manager(llm, memory):
         for i, rec in enumerate(past_memories, 1):
             past_memory_str += rec["recommendation"] + "\n\n"
 
-        prompt = prompts["managers"]["risk_manager"] \
+        prompt = get_prompts("managers", "risk_manager") \
             .replace("{trader_plan}", trader_plan) \
             .replace("{past_memory_str}", past_memory_str) \
             .replace("{history}", history)

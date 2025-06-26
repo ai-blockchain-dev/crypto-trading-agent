@@ -3,8 +3,6 @@
 from langchain_openai import ChatOpenAI
 from tradingagents.i18n import get_prompts
 
-prompts = get_prompts()
-
 class SignalProcessor:
     """Processes trading signals to extract actionable decisions."""
 
@@ -25,7 +23,7 @@ class SignalProcessor:
         messages = [
             (
                 "system",
-                prompts["signal_processor"]["system_message"],
+                get_prompts("signal_processor", "system_message"),
             ),
             ("human", full_signal),
         ]

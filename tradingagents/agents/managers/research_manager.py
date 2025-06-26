@@ -2,8 +2,6 @@ import time
 import json
 from tradingagents.i18n import get_prompts
 
-prompts = get_prompts()
-
 def create_research_manager(llm, memory):
     def research_manager_node(state) -> dict:
         history = state["investment_debate_state"].get("history", "")
@@ -21,7 +19,7 @@ def create_research_manager(llm, memory):
         for i, rec in enumerate(past_memories, 1):
             past_memory_str += rec["recommendation"] + "\n\n"
 
-        prompt = prompts["managers"]["research_manager"] \
+        prompt = get_prompts("managers", "research_manager") \
             .replace("{past_memory_str}", past_memory_str) \
             .replace("{history}", history)
         response = llm.invoke(prompt)

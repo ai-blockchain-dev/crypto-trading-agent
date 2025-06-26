@@ -4,8 +4,6 @@ from typing import Dict, Any
 from langchain_openai import ChatOpenAI
 from tradingagents.i18n import get_prompts
 
-prompts = get_prompts()
-
 class Reflector:
     """Handles reflection on decisions and updating memory."""
 
@@ -16,7 +14,7 @@ class Reflector:
 
     def _get_reflection_prompt(self) -> str:
         """Get the system prompt for reflection."""
-        return prompts["reflection"]["system_message"]
+        return get_prompts("reflection", "system_message")
 
     def _extract_current_situation(self, current_state: Dict[str, Any]) -> str:
         """Extract the current market situation from the state."""
@@ -35,7 +33,7 @@ class Reflector:
             ("system", self.reflection_system_prompt),
             (
                 "human",
-                prompts["reflection"]["user_message"] \
+                get_prompts("reflection", "user_message") \
                     .replace("{returns_losses}", returns_losses) \
                     .replace("{report}", report) \
                     .replace("{situation}", situation)

@@ -17,8 +17,8 @@ ANALYST_ORDER = [
 def get_ticker() -> str:
     """Prompt the user to enter a ticker symbol."""
     ticker = questionary.text(
-        lang["step1_prompt"],
-        validate=lambda x: len(x.strip()) > 0 or lang["ticker_validate"],
+        get_lang("step1_prompt"),
+        validate=lambda x: len(x.strip()) > 0 or get_lang("ticker_validate"),
         style=questionary.Style(
             [
                 ("text", "fg:green"),
@@ -49,8 +49,8 @@ def get_analysis_date() -> str:
             return False
 
     date = questionary.text(
-        lang["step2_prompt"],
-        validate=lambda x: validate_date(x.strip()) or lang["date_validate"],
+        get_lang("step2_prompt"),
+        validate=lambda x: validate_date(x.strip()) or get_lang("date_validate"),
         style=questionary.Style(
             [
                 ("text", "fg:green"),
@@ -69,12 +69,12 @@ def get_analysis_date() -> str:
 def select_analysts() -> List[AnalystType]:
     """Select analysts using an interactive checkbox."""
     choices = questionary.checkbox(
-        lang["step3_prompt"],
+        get_lang("step3_prompt"),
         choices=[
             questionary.Choice(lang.get(display.replace(" ", "_").lower(), display), value=value) for display, value in ANALYST_ORDER
         ],
-        instruction=lang["analyst_instruction"],
-        validate=lambda x: len(x) > 0 or lang["analyst_validate"],
+        instruction=get_lang("analyst_instruction"),
+        validate=lambda x: len(x) > 0 or get_lang("analyst_validate"),
         style=questionary.Style(
             [
                 ("checkbox-selected", "fg:green"),
@@ -97,17 +97,17 @@ def select_research_depth() -> int:
 
     # Define research depth options with their corresponding values
     DEPTH_OPTIONS = [
-        (lang["depth_shallow"], 1),
-        (lang["depth_medium"], 3),
-        (lang["depth_deep"], 5),
+        (get_lang("depth_shallow"), 1),
+        (get_lang("depth_medium"), 3),
+        (get_lang("depth_deep"), 5),
     ]
 
     choice = questionary.select(
-        lang["step4_prompt"],
+        get_lang("step4_prompt"),
         choices=[
             questionary.Choice(display, value=value) for display, value in DEPTH_OPTIONS
         ],
-        instruction=lang["depth_instruction"],
+        instruction=get_lang("depth_instruction"),
         style=questionary.Style(
             [
                 ("selected", "fg:yellow noinherit"),

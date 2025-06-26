@@ -2,8 +2,6 @@ import time
 import json
 from tradingagents.i18n import get_prompts
 
-prompts = get_prompts()
-
 def create_risky_debator(llm):
     def risky_node(state) -> dict:
         risk_debate_state = state["risk_debate_state"]
@@ -20,7 +18,7 @@ def create_risky_debator(llm):
 
         trader_decision = state["trader_investment_plan"]
 
-        prompt = prompts["risk_mgmt"]["aggressive_debator"] \
+        prompt = get_prompts("risk_mgmt", "aggressive_debator") \
             .replace("{trader_decision}", trader_decision) \
             .replace("{market_research_report}", market_research_report) \
             .replace("{sentiment_report}", sentiment_report) \

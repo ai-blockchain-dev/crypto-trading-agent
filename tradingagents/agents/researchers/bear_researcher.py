@@ -3,8 +3,6 @@ import time
 import json
 from tradingagents.i18n import get_prompts
 
-prompts = get_prompts()
-
 def create_bear_researcher(llm, memory):
     def bear_node(state) -> dict:
         investment_debate_state = state["investment_debate_state"]
@@ -24,7 +22,7 @@ def create_bear_researcher(llm, memory):
         for i, rec in enumerate(past_memories, 1):
             past_memory_str += rec["recommendation"] + "\n\n"
 
-        prompt = prompts["researchers"]["bear_researcher"] \
+        prompt = get_prompts("researchers", "bear_researcher") \
             .replace("{market_research_report}", market_research_report) \
             .replace("{sentiment_report}", sentiment_report) \
             .replace("{news_report}", news_report) \

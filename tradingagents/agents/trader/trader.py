@@ -3,8 +3,6 @@ import time
 import json
 from tradingagents.i18n import get_prompts
 
-prompts = get_prompts()
-
 def create_trader(llm, memory):
     def trader_node(state, name):
         company_name = state["company_of_interest"]
@@ -23,7 +21,7 @@ def create_trader(llm, memory):
 
         context = {
             "role": "user",
-            "content": prompts["trader"]["user_message"] \
+            "content": get_prompts("trader", "user_message") \
                 .replace("{company_name}", company_name) \
                 .replace("{investment_plan}", investment_plan)
         }
@@ -31,7 +29,7 @@ def create_trader(llm, memory):
         messages = [
             {
                 "role": "system",
-                "content": prompts["trader"]["system_message"] \
+                "content": get_prompts("trader", "system_message") \
                     .replace("{past_memory_str}", past_memory_str),
             },
             context,

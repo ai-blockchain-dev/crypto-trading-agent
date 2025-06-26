@@ -3,8 +3,6 @@ import time
 import json
 from tradingagents.i18n import get_prompts
 
-prompts = get_prompts()
-
 def create_fundamentals_analyst(llm, toolkit):
     def fundamentals_analyst_node(state):
         current_date = state["trade_date"]
@@ -23,14 +21,14 @@ def create_fundamentals_analyst(llm, toolkit):
             ]
 
         system_message = (
-            prompts["analysts"]["fundamentals_analyst"]["system_message"]
+            get_prompts("analysts", "fundamentals_analyst", "system_message")
         )
 
         prompt = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
-                    prompts["analysts"]["template"]
+                    get_prompts("analysts", "template")
                 ),
                 MessagesPlaceholder(variable_name="messages"),
             ]
