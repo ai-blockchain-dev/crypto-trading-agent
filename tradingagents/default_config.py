@@ -7,6 +7,11 @@ DEFAULT_CONFIG = {
         os.path.abspath(os.path.join(os.path.dirname(__file__), ".")),
         "dataflows/data_cache",
     ),
+    # Output settings
+    "save_report": True,
+    "report_dir": os.path.join(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), ".")), "reports"
+    ),
     # LLM settings
     "llm_provider": "qwen",
     "deep_think_llm": "qwen-plus",

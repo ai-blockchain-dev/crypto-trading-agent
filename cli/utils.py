@@ -288,3 +288,63 @@ def select_llm_provider() -> tuple[str, str]:
     print(f"You selected: {display_name}\tURL: {url}")
     
     return display_name, url
+
+def extract_reports_from_final_state(final_state):
+    analyst_reports = []
+    if final_state.get("market_report"):
+        analyst_reports.append(("Market Analyst", final_state["market_report"]))
+    if final_state.get("sentiment_report"):
+        analyst_reports.append(("Sentiment Analyst", final_state["sentiment_report"]))
+    if final_state.get("news_report"):
+        analyst_reports.append(("News Analyst", final_state["news_report"]))
+    if final_state.get("fundamentals_report"):
+        analyst_reports.append(("Fundamentals Analyst", final_state["fundamentals_report"]))
+    if final_state.get("investment_debate_state"):
+        debate_state = final_state["investment_debate_state"]
+        if debate_state.get("bull_history"):
+            analyst_reports.append(("Investment Debate - Bull", debate_state["bull_history"]))
+        if debate_state.get("bear_history"):
+            analyst_reports.append(("Investment Debate - Bear", debate_state["bear_history"]))
+        if debate_state.get("judge_decision"):
+            analyst_reports.append(("Investment Debate - Judge Decision", debate_state["judge_decision"]))
+    if final_state.get("trader_investment_plan"):
+        analyst_reports.append(("Trader Investment Plan", final_state["trader_investment_plan"]))
+    if final_state.get("risk_debate_state"):
+        risk_state = final_state["risk_debate_state"]
+        if risk_state.get("risky_history"):
+            analyst_reports.append(("Risk Debate - Risky", risk_state["risky_history"]))
+        if risk_state.get("safe_history"):
+            analyst_reports.append(("Risk Debate - Safe", risk_state["safe_history"]))
+        if risk_state.get("neutral_history"):
+            analyst_reports.append(("Risk Debate - Neutral", risk_state["neutral_history"]))
+        if risk_state.get("judge_decision"):
+            analyst_reports.append(("Risk Debate - Judge Decision", risk_state["judge_decision"]))
+    return {report_name: report_content for report_name, report_content in analyst_reports if report_content}
+
+def save_reports(ticker: str, reports: Dict[str, str], output_dir: str, filename = "") -> None:
+    """
+        Save the generated reports to the specified output directory.
+        Args:
+            ticker (str): The ticker symbol for which the reports are generated.
+            reports (Dict[str, str]): A dictionary where keys are report names and values are report content.
+            output_dir (str): The directory where the reports will be saved.
+            filename (str): Optional filename to save the reports as a single file. If empty, the filename will be formatted as `{ticker}_reports_{time}.md`.
+    """
+    import os
+    from datetime import datetime
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    if filename:
+        file_path = os.path.join(output_dir, filename)
+    else:
+        time_str = datetime.now().strftime("%Y%m%d_%H%M")
+        file_path = os.path.join(output_dir, f"{ticker}_reports_{time_str}.md")
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write(f"# Reports for {ticker}\n\n")
+        file.write(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n")
+        for report_name, report_content in reports.items():
+            file.write(f"## {report_name}\n\n")
+            file.write(report_content + "\n\n")

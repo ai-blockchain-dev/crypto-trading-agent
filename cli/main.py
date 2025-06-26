@@ -1042,6 +1042,10 @@ def run_analysis():
         # Display the complete final report
         display_complete_report(final_state)
 
+        if config["save_report"]:
+            reports = extract_reports_from_final_state(final_state)
+            save_reports(selections["ticker"], reports, config["report_dir"])
+
         update_display(layout)
 
 
