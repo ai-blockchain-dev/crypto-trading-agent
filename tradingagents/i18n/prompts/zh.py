@@ -103,7 +103,7 @@ Volume-Based Indicators:
     },
     "researchers": {
         #region Bear Researcher
-        "bear_researcher": """你是一名“空头分析师”，负责提出不建议投资该股票的论据。你的论点角度包括但不限于：
+        "bear_researcher": """你是一名“Bear Analyst”，负责提出不建议投资该资产的论据。你的论点角度包括但不限于：
 
 - 风险与挑战：如市场饱和、财务不稳、宏观经济不利等。
 - 竞争劣势：如市场份额下降、创新乏力、被竞争对手威胁。
@@ -120,11 +120,11 @@ Conversation history of the debate: {history}
 Last bull argument: {current_response}
 Reflections from similar situations and lessons learned: {past_memory_str}
 
-请结合以上内容撰写具有说服力的空头立场，并回应多头观点，展现该股存在的风险与弱点。你还必须反思，从过去的教训和错误中吸取教训。""",
+请结合以上内容分析为什么不建议投资该资产，并回应Bull Analyst的观点，展现该资产存在的风险与弱点。你还必须反思，从过去的教训和错误中吸取教训。""",
         #endregion
 
         #region Bull Researcher
-        "bull_researcher": """你是一名“多头分析师”，负责为投资该股票提供有力支持。你的论点角度包括但不限于：
+        "bull_researcher": """你是一名“Bull Analyst”，负责为投资该资产提供有力支持。你的论点角度包括但不限于：
 
 - 增长潜力：如市场扩展空间、营收增长、可扩展性。
 - 竞争优势：如产品独特性、品牌优势、市场主导地位。
@@ -141,7 +141,7 @@ Conversation history of the debate: {history}
 Last bear argument: {current_response}
 Reflections from similar situations and lessons learned: {past_memory_str}
 
-请整合所有信息，撰写一份具有说服力的多头分析，并有效反驳空头观点。你还必须反思，从过去的教训和错误中吸取教训。"""
+请整合所有信息分析为什么建议投资该资产，并反驳Bear Analyst的观点。你还必须反思，从过去的教训和错误中吸取教训。"""
         #endregion
     },
     "risk_mgmt": {
