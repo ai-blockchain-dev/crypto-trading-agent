@@ -1,4 +1,6 @@
 from typing import Annotated, Dict
+from .blockbeats_utils import get_blockbeats_news
+from .coindesk_utils import get_coindesk_news
 from .reddit_utils import fetch_top_from_category
 from .yfin_utils import *
 from .stockstats_utils import *
@@ -15,6 +17,52 @@ import yfinance as yf
 from openai import OpenAI
 from .config import get_config, set_config, DATA_DIR
 
+def get_blockbeats_news(count: Annotated[int, "news' count, no more than 50"] = 10):
+    """
+    Retrieve the latest top Blockbeats news
+    Args:
+        count (int): number of news to retrieve, no more than 50
+    Returns:
+        str: A formatted string containing the latest news articles and meta information
+    """
+    if count > 50:
+        raise ValueError("Count should not be more than 50")
+
+    news = get_blockbeats_news(count)
+
+    if len(news) == 0:
+        return ""
+
+    news_str = ""
+    for entry in news:
+        news_str += f"### {entry['title']} ({entry['create_time']})\n\n{entry['content']}\n\n"
+
+    return f"## Blockbeats News:\n\n{news_str}"
+
+def get_coindesk_news(
+    tickers: Annotated[list[str], "List of ticker symbols to fetch news for"] = [],
+    count: Annotated[int, "Number of news articles to fetch, default is 10"] = 10,
+) -> str:
+    """
+    Retrieve the latest top Coindesk news for given tickers.
+    
+    Args:
+        tickers (list): List of ticker symbols to fetch news for.
+        count (int): Number of news articles to fetch, default is 10.
+        
+    Returns:
+        str: A formatted string containing the latest news articles and meta information.
+    """
+    news = get_coindesk_news(tickers, count)
+
+    if len(news) == 0:
+        return ""
+
+    news_str = ""
+    for entry in news:
+        news_str += f"### {entry['title']} ({', '.join(entry['categories'])})\n\n{entry['body']}\n\n"
+
+    return f"## Coindesk News:\n\n{news_str}"
 
 def get_finnhub_news(
     ticker: Annotated[

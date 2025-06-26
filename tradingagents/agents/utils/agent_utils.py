@@ -50,6 +50,41 @@ class Toolkit:
 
     @staticmethod
     @tool
+    def get_blockbeats_news(
+        count: Annotated[int, "Number of news articles to retrieve, no more than 50"] = 10,
+    ) -> str:
+        """
+        Retrieve the latest news from BlockBeats, especially useful for Cryptos.
+        Args:
+            count (int): Number of news articles to retrieve, no more than 50
+        Returns:
+            str: A formatted string containing the latest news from BlockBeats.
+        """
+        blockbeats_news_result = interface.get_blockbeats_news(count)
+        return blockbeats_news_result
+    
+    @staticmethod
+    @tool
+    def get_coindesk_news(
+        tickers: Annotated[
+            List[str],
+            "List of tickers to get news for, e.g. ['BTC', 'ETH']",
+        ] = [],
+        count: Annotated[int, "Number of news articles to retrieve, default is 10"] = 10,
+    ) -> str:
+        """
+        Retrieve the latest news from Coindesk for a given list of tickers.
+        Args:
+            tickers (List[str]): List of tickers to get news for, e.g. ['BTC', 'ETH']
+            count (int): Number of news articles to retrieve, default is 10
+        Returns:
+            str: A formatted string containing the latest news from Coindesk for the specified tickers.
+        """
+        coindesk_news_result = interface.get_coindesk_news(tickers, count)
+        return coindesk_news_result
+
+    @staticmethod
+    @tool
     def get_reddit_news(
         curr_date: Annotated[str, "Date you want to get news for in yyyy-mm-dd format"],
     ) -> str:
