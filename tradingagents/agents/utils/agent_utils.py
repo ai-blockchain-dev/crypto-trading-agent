@@ -82,6 +82,26 @@ class Toolkit:
         """
         coindesk_news_result = interface.get_coindesk_news(tickers, count)
         return coindesk_news_result
+    
+    @staticmethod
+    @tool
+    def get_binance_data(
+        symbol: Annotated[str, "ticker symbol of the asset"],
+        interval: Annotated[
+            str,
+            "Interval for the data, e.g. '1m', '5m', '1h', '1d'",
+        ] = "15m",
+    ) -> str:
+        """
+        Retrieve the latest market data from Binance for a given symbol and interval.
+        Args:
+            symbol (str): Ticker symbol of the asset, e.g. 'BTCUSDT'
+            interval (str): Interval for the data, e.g. '1m', '5m', '1h', '1d'
+        Returns:
+            str: A formatted string containing the latest market data from Binance for the specified symbol and interval.
+        """
+        binance_data_result = interface.get_binance_data(symbol, interval)
+        return binance_data_result
 
     @staticmethod
     @tool

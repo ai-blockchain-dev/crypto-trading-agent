@@ -118,7 +118,7 @@ class TradingAgentsGraph:
             "market": ToolNode(
                 [
                     # online tools
-                    self.toolkit.get_YFin_data_online,
+                    self.toolkit.get_binance_data,
                     self.toolkit.get_stockstats_indicators_report_online,
                     # offline tools
                     self.toolkit.get_YFin_data,
@@ -138,6 +138,8 @@ class TradingAgentsGraph:
                     # online tools
                     self.toolkit.get_global_news_openai,
                     self.toolkit.get_google_news,
+                    self.toolkit.get_blockbeats_news,
+                    self.toolkit.get_coindesk_news,
                     # offline tools
                     self.toolkit.get_finnhub_news,
                     self.toolkit.get_reddit_news,

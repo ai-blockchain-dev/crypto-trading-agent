@@ -5,6 +5,7 @@ from .reddit_utils import fetch_top_from_category
 from .yfin_utils import *
 from .stockstats_utils import *
 from .googlenews_utils import *
+from .binance_utils import *
 from .finnhub_utils import get_data_in_range
 from dateutil.relativedelta import relativedelta
 from concurrent.futures import ThreadPoolExecutor
@@ -466,6 +467,105 @@ def get_reddit_company_news(
 
     return f"##{ticker} News Reddit, from {before} to {curr_date}:\n\n{news_str}"
 
+def get_binance_data(
+    symbol: Annotated[str, "ticker symbol of the asset"],
+    interval: Annotated[str, "time interval for the data, e.g., '1m', '5m', '1h'"],
+    klines_limit: Annotated[int, "maximum number of klines to fetch, default is 75"] = 75,
+    depth_limit: Annotated[int, "maximum number of bids and asks to fetch, default is 50"] = 50,
+    longshort_limit: Annotated[int, "maximum number of long/short ratios to fetch, default is 50"] = 50,
+) -> str:
+    """
+    Fetch historical futures data from Binance for a given symbol and interval.
+
+    Args:
+        symbol (str): The trading pair symbol (e.g., 'BTCUSDT').
+        interval (str): The time interval for the klines (e.g., '1m', '5m', '1h').
+        klines_limit (int): The maximum number of klines to fetch (default is 75).
+        depth_limit (int): The maximum number of bids and asks to fetch (default is 50).
+        longshort_limit (int): The maximum number of long/short ratios to fetch (default is 50).
+        
+    Returns:
+        str: A formatted string containing the historical futures data.
+    """
+    symbol = symbol.upper().strip()
+    if not symbol.endswith("USDT"):
+        symbol += "USDT"  # Ensure the symbol ends with USDT for futures
+
+    klines_str = ""
+    klines = get_binance_klines(symbol, interval, klines_limit)
+    if klines is not None and len(klines) != 0:
+        klines = list(map(lambda x: { "t": x[0], "o": x[1], "h": x[2], "l": x[3], "c": x[4], "v": x[5] }, klines))
+        klines_str = f"## {symbol} Futures **KLines Data** for {interval} interval:\n" + "\n".join(
+            [f"{entry["t"]}: Open: {entry["o"]}, High: {entry["h"]}, Low: {entry["l"]}, Close: {entry["c"]}, Volume: {entry["v"]}" for entry in klines]
+        ) + "\n\n"
+    
+    depth_str = ""
+    depth = get_binance_depth(symbol, depth_limit)
+    if depth is not None and isinstance(depth, dict):
+        bids = depth.get("bids", [-1, -1])
+        asks = depth.get("asks", [-1, -1])
+        depth = { "bids": { "price": bids[0], "volume": bids[1] }, "asks": { "price": asks[0], "volume": asks[1] } }
+        depth_str = f"## {symbol} Futures **Current Depth Data**:\nBids: Price: {depth["bids"]["price"]}, Volume: {depth["bids"]["volume"]}\nAsks: Price: {depth["asks"]["price"]}, Volume: {depth["asks"]["volume"]}\n\n"
+
+    ticker_24hr_str = ""
+    ticker_24hr = get_binance_24hr_pricechange(symbol)
+    if ticker_24hr is not None and isinstance(ticker_24hr, dict):
+        ticker_24hr_str = f"## {symbol} Futures **24-Hour Price Change**:\nPrice Change: {ticker_24hr.get("priceChange", "N/A")}, Price Change Percent: {ticker_24hr.get("priceChangePercent", "N/A")}, Weighted Avg Price: {ticker_24hr.get("weightedAvgPrice", "N/A")}\n\n"
+
+    top_longshort_position_ratio_str = ""
+    top_longshort_position_ratio = get_binance_toplongshort_position_ratio(symbol, interval, longshort_limit)
+    if top_longshort_position_ratio is not None and isinstance(top_longshort_position_ratio, list):
+        top_longshort_position_ratio = [
+            { "t": entry["timestamp"], "longShortRatio": entry["longShortRatio"] }
+            for entry in top_longshort_position_ratio
+        ]
+        top_longshort_position_ratio_str = f"## {symbol} Futures **Top Long/Short Position Ratio**:\n" + "\n".join(
+            [f"{entry["t"]}: Long/Short Ratio: {entry["longShortRatio"]}" for entry in top_longshort_position_ratio]
+        ) + "\n\n"
+
+    top_longshort_account_ratio_str = ""
+    top_longshort_account_ratio = get_binance_toplongshort_account_ratio(symbol, interval, longshort_limit)
+    if top_longshort_account_ratio is not None and isinstance(top_longshort_account_ratio, list):
+        top_longshort_account_ratio = [
+            { "t": entry["timestamp"], "longShortRatio": entry["longShortRatio"] }
+            for entry in top_longshort_account_ratio
+        ]
+        top_longshort_account_ratio_str = f"## {symbol} Futures **Top Long/Short Account Ratio**:\n" + "\n".join(
+            [f"{entry["t"]}: Long/Short Ratio: {entry["longShortRatio"]}" for entry in top_longshort_account_ratio]
+        ) + "\n\n"
+
+    global_longshort_account_ratio_str = ""
+    global_longshort_account_ratio = get_binance_global_longshort_account_ratio(symbol, interval, longshort_limit)
+    if global_longshort_account_ratio is not None and isinstance(global_longshort_account_ratio, list):
+        global_longshort_account_ratio = [
+            { "t": entry["timestamp"], "longShortRatio": entry["longShortRatio"] }
+            for entry in global_longshort_account_ratio
+        ]
+        global_longshort_account_ratio_str = f"## {symbol} Futures **Global Long/Short Account Ratio**:\n" + "\n".join(
+            [f"{entry["t"]}: Long/Short Ratio: {entry["longShortRatio"]}" for entry in global_longshort_account_ratio]
+        ) + "\n\n"
+
+    taker_longshort_ratio_str = ""
+    taker_longshort_ratio = get_binance_taker_longshort_ratio(symbol, interval, longshort_limit)
+    if taker_longshort_ratio is not None and isinstance(taker_longshort_ratio, list):
+        taker_longshort_ratio = [
+            { "t": entry["timestamp"], "buySellRatio": entry["buySellRatio"], "buyVol": entry["buyVol"], "sellVol": entry["sellVol"] }
+            for entry in taker_longshort_ratio
+        ]
+        taker_longshort_ratio_str = f"## {symbol} Futures **Taker Long/Short Ratio**:\n" + "\n".join(
+            [f"{entry["t"]}: Long/Short Ratio: {entry["buySellRatio"]}, Buy Volume: {entry["buyVol"]}, Sell Volume: {entry["sellVol"]}" for entry in taker_longshort_ratio]
+        ) + "\n\n"
+
+    return (
+        f"## {symbol} Futures Data:\n\n"
+        + klines_str
+        + depth_str
+        + ticker_24hr_str
+        + top_longshort_position_ratio_str
+        + top_longshort_account_ratio_str
+        + global_longshort_account_ratio_str
+        + taker_longshort_ratio_str
+    )
 
 def get_stock_stats_indicators_window(
     symbol: Annotated[str, "ticker symbol of the company"],
