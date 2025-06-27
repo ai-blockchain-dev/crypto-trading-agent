@@ -1,6 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 import time
 import json
+from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.i18n import get_prompts
 
 def create_news_analyst(llm, toolkit):
@@ -18,6 +19,7 @@ def create_news_analyst(llm, toolkit):
 
         system_message = (
             get_prompts("analysts", "news_analyst", "system_message")
+                .replace("{max_tokens}", str(DEFAULT_CONFIG["max_tokens"]))
         )
 
         prompt = ChatPromptTemplate.from_messages(

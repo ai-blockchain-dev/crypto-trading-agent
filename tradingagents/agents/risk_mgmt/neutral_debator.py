@@ -1,5 +1,6 @@
 import time
 import json
+from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.i18n import get_prompts
 
 def create_neutral_debator(llm):
@@ -19,6 +20,7 @@ def create_neutral_debator(llm):
         trader_decision = state["trader_investment_plan"]
 
         prompt = get_prompts("risk_mgmt", "neutral_debator") \
+            .replace("{max_tokens}", str(DEFAULT_CONFIG["max_tokens"])) \
             .replace("{trader_decision}", trader_decision) \
             .replace("{market_research_report}", market_research_report) \
             .replace("{sentiment_report}", sentiment_report) \

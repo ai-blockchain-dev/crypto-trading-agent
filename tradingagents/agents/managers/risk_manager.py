@@ -1,5 +1,6 @@
 import time
 import json
+from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.i18n import get_prompts
 
 def create_risk_manager(llm, memory):
@@ -23,6 +24,7 @@ def create_risk_manager(llm, memory):
             past_memory_str += rec["recommendation"] + "\n\n"
 
         prompt = get_prompts("managers", "risk_manager") \
+            .replace("{max_tokens}", str(DEFAULT_CONFIG["max_tokens"])) \
             .replace("{trader_plan}", trader_plan) \
             .replace("{past_memory_str}", past_memory_str) \
             .replace("{history}", history)

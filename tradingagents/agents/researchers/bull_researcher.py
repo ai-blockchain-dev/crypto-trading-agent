@@ -1,6 +1,7 @@
 from langchain_core.messages import AIMessage
 import time
 import json
+from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.i18n import get_prompts
 
 def create_bull_researcher(llm, memory):
@@ -23,6 +24,7 @@ def create_bull_researcher(llm, memory):
             past_memory_str += rec["recommendation"] + "\n\n"
 
         prompt = get_prompts("researchers", "bull_researcher") \
+            .replace("{max_tokens}", str(DEFAULT_CONFIG["max_tokens"])) \
             .replace("{market_research_report}", market_research_report) \
             .replace("{sentiment_report}", sentiment_report) \
             .replace("{news_report}", news_report) \
