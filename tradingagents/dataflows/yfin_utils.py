@@ -1,5 +1,4 @@
 # gets data/stats
-
 import yfinance as yf
 from typing import Annotated, Callable, Any, Optional
 from pandas import DataFrame
@@ -19,7 +18,8 @@ def init_ticker(func: Callable) -> Callable:
 
     return wrapper
 
-
+from warnings import deprecated
+@deprecated("Utilities only for stocks are deprecated.")
 @decorate_all_methods(init_ticker)
 class YFinanceUtils:
 

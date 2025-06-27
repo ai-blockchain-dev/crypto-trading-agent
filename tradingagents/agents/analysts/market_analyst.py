@@ -10,16 +10,9 @@ def create_market_analyst(llm, toolkit):
         ticker = state["company_of_interest"]
         company_name = state["company_of_interest"]
 
-        if toolkit.config["online_tools"]:
-            tools = [
-                toolkit.get_binance_data,
-                toolkit.get_stockstats_indicators_report_online,
-            ]
-        else:
-            tools = [
-                toolkit.get_YFin_data,
-                toolkit.get_stockstats_indicators_report,
-            ]
+        tools = [
+            toolkit.get_binance_data
+        ]
 
         system_message = (
             get_prompts("analysts", "market_analyst", "system_message")

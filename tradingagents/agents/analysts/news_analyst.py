@@ -8,19 +8,13 @@ def create_news_analyst(llm, toolkit):
         current_date = state["trade_date"]
         ticker = state["company_of_interest"]
 
-        if toolkit.config["online_tools"]:
-            tools = [
-                toolkit.get_global_news_openai, 
-                toolkit.get_google_news,
-                toolkit.get_blockbeats_news,
-                toolkit.get_coindesk_news,
-            ]
-        else:
-            tools = [
-                toolkit.get_finnhub_news,
-                toolkit.get_reddit_news,
-                toolkit.get_google_news,
-            ]
+        tools = [
+            # toolkit.get_global_news_openai, 
+            # toolkit.get_google_news,
+            # toolkit.get_reddit_news,
+            toolkit.get_blockbeats_news,
+            toolkit.get_coindesk_news,
+        ]
 
         system_message = (
             get_prompts("analysts", "news_analyst", "system_message")

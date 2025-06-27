@@ -9,12 +9,10 @@ def create_social_media_analyst(llm, toolkit):
         ticker = state["company_of_interest"]
         company_name = state["company_of_interest"]
 
-        if toolkit.config["online_tools"]:
-            tools = [toolkit.get_stock_news_openai]
-        else:
-            tools = [
-                toolkit.get_reddit_stock_info,
-            ]
+        tools = [
+            toolkit.get_stock_news_openai,
+            toolkit.get_reddit_stock_info
+        ]
 
         system_message = (
             get_prompts("analysts", "social_media_analyst", "system_message")

@@ -9,16 +9,9 @@ def create_fundamentals_analyst(llm, toolkit):
         ticker = state["company_of_interest"]
         company_name = state["company_of_interest"]
 
-        if toolkit.config["online_tools"]:
-            tools = [toolkit.get_fundamentals_openai]
-        else:
-            tools = [
-                toolkit.get_finnhub_company_insider_sentiment,
-                toolkit.get_finnhub_company_insider_transactions,
-                toolkit.get_simfin_balance_sheet,
-                toolkit.get_simfin_cashflow,
-                toolkit.get_simfin_income_stmt,
-            ]
+        tools = [
+            toolkit.get_fundamentals_openai
+        ]
 
         system_message = (
             get_prompts("analysts", "fundamentals_analyst", "system_message")

@@ -18,12 +18,11 @@ DEFAULT_CONFIG = {
     "quick_think_llm": "qwen-turbo",
     "backend_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
     "api_key_env_name": "DASHSCOPE_API_KEY",
+    "max_tokens": 1000,  # Maximum tokens for LLM responses
     # Debate and discussion settings
     "max_debate_rounds": 1,
     "max_risk_discuss_rounds": 1,
     "max_recur_limit": 200,
-    # Tool settings
-    "online_tools": True,
     # Language settings
     "language": "zh",  # 支持 'zh' 或 'en'
 }

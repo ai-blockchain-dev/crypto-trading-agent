@@ -5,7 +5,8 @@ from typing import Annotated
 import os
 from .config import get_config
 
-
+from warnings import deprecated
+@deprecated("Utilities only for stocks are deprecated.")
 class StockstatsUtils:
     @staticmethod
     def get_stock_stats(
