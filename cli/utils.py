@@ -136,9 +136,9 @@ def select_shallow_thinking_agent(provider) -> str:
             ("GPT-4o - Standard model with solid capabilities", "gpt-4o"),
         ],
         "qwen": [
-            ("Qwen-Turbo - Fast speed and low cost, suitable for simple tasks", "qwen-turbo"),
-            ("Qwen-Plus - Balanced combination of performance and speed, ideal for moderately complex tasks", "qwen-plus"),
-            ("Qwen-Max - For complex and multi-step tasks", "qwen-max"),
+            ("Qwen-Turbo - Fast speed and low cost, suitable for simple tasks", "qwen-turbo-latest"),
+            ("Qwen-Plus - Balanced combination of performance and speed, ideal for moderately complex tasks", "qwen-plus-latest"),
+            ("Qwen-Max - For complex and multi-step tasks", "qwen-max-latest"),
             ("Qwen-Long - For long context tasks", "qwen-long")
         ],
         "anthropic": [
@@ -203,9 +203,9 @@ def select_deep_thinking_agent(provider) -> str:
         ],
         "qwen": [
             ("QwQ - Reasoning model. Have reached the level of DeepSeek-R1", "qwq-plus"),
-            ("Qwen-Turbo - Fast speed and low cost, suitable for simple tasks", "qwen-turbo"),
-            ("Qwen-Plus - Balanced combination of performance and speed, ideal for moderately complex tasks", "qwen-plus"),
-            ("Qwen-Max - For complex and multi-step tasks", "qwen-max"),
+            ("Qwen-Turbo - Fast speed and low cost, suitable for simple tasks", "qwen-turbo-latest"),
+            ("Qwen-Plus - Balanced combination of performance and speed, ideal for moderately complex tasks", "qwen-plus-latest"),
+            ("Qwen-Max - For complex and multi-step tasks", "qwen-max-latest"),
             ("Qwen-Long - For long context tasks", "qwen-long"),
         ],
         "anthropic": [
