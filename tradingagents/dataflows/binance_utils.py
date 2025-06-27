@@ -3,7 +3,7 @@ from binance.um_futures import UMFutures
 
 um_futures_client = UMFutures()
 
-def get_binance_klines(symbol: str, interval: str, limit: int = 75):
+def fetch_klines_from_binance(symbol: str, interval: str, limit: int = 75):
     """
     Fetch historical klines (candlestick data) from Binance.
 
@@ -14,7 +14,7 @@ def get_binance_klines(symbol: str, interval: str, limit: int = 75):
     """
     return um_futures_client.klines(symbol=symbol, interval=interval, limit=limit)
 
-def get_binance_depth(symbol: str, limit: int = 50):
+def fetch_depth_from_binance(symbol: str, limit: int = 50):
     """
     Fetch the order book depth from Binance.
 
@@ -24,7 +24,7 @@ def get_binance_depth(symbol: str, limit: int = 50):
     """
     return um_futures_client.depth(symbol=symbol, limit=limit)
 
-def get_binance_24hr_pricechange(symbol: str):
+def fetch_24hr_pricechange_from_binance(symbol: str):
     """
     Fetch 24-hour ticker price change statistics from Binance.
 
@@ -33,7 +33,7 @@ def get_binance_24hr_pricechange(symbol: str):
     """
     return um_futures_client.ticker_24hr_price_change(symbol=symbol)
 
-def get_binance_toplongshort_position_ratio(symbol: str, period: str, limit: int = 50):
+def fetch_toplongshort_position_ratio_from_binance(symbol: str, period: str, limit: int = 50):
     """
     Fetch the top long/short position ratio from Binance.
 
@@ -44,7 +44,7 @@ def get_binance_toplongshort_position_ratio(symbol: str, period: str, limit: int
     """
     return um_futures_client.top_long_short_position_ratio(symbol=symbol, period=period, limit=limit)
 
-def get_binance_toplongshort_account_ratio(symbol: str, period: str, limit: int = 50):
+def fetch_toplongshort_account_ratio_from_binance(symbol: str, period: str, limit: int = 50):
     """
     Fetch the top long/short account ratio from Binance.
 
@@ -55,7 +55,7 @@ def get_binance_toplongshort_account_ratio(symbol: str, period: str, limit: int 
     """
     return um_futures_client.top_long_short_account_ratio(symbol=symbol, period=period, limit=limit)
 
-def get_binance_global_longshort_account_ratio(symbol: str, period: str, limit: int = 50):
+def fetch_global_longshort_account_ratio_from_binance(symbol: str, period: str, limit: int = 50):
     """
     Fetch the global long/short account ratio from Binance.
 
@@ -66,7 +66,7 @@ def get_binance_global_longshort_account_ratio(symbol: str, period: str, limit: 
     """
     return um_futures_client.long_short_account_ratio(symbol=symbol, period=period, limit=limit)
 
-def get_binance_taker_longshort_ratio(symbol: str, period: str, limit: int = 50):
+def fetch_taker_longshort_ratio_from_binance(symbol: str, period: str, limit: int = 50):
     """
     Fetch the taker long/short ratio from Binance.
 

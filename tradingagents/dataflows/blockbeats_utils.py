@@ -1,7 +1,7 @@
 
 import requests
 
-def get_blockbeats_news(count = 10):
+def fetch_news_from_blockbeats(count = 10):
     url = f"https://api.theblockbeats.news/v1/open-api/open-flash?page=1&size={count}&type=push&lang=cn"
     response = requests.get(url)
     if response.status_code == 200:

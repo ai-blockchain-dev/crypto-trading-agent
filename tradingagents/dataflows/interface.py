@@ -1,6 +1,6 @@
 from typing import Annotated, Dict
-from .blockbeats_utils import get_blockbeats_news
-from .coindesk_utils import get_coindesk_news
+from .blockbeats_utils import fetch_news_from_blockbeats
+from .coindesk_utils import fetch_news_from_coindesk
 from .reddit_utils import fetch_top_from_category
 from .yfin_utils import *
 from .stockstats_utils import *
@@ -29,7 +29,7 @@ def get_blockbeats_news(count: Annotated[int, "news' count, no more than 50"] = 
     if count > 50:
         raise ValueError("Count should not be more than 50")
 
-    news = get_blockbeats_news(count)
+    news = fetch_news_from_blockbeats(count)
 
     if len(news) == 0:
         return ""
@@ -54,7 +54,7 @@ def get_coindesk_news(
     Returns:
         str: A formatted string containing the latest news articles and meta information.
     """
-    news = get_coindesk_news(tickers, count)
+    news = fetch_news_from_coindesk(tickers, count)
 
     if len(news) == 0:
         return ""

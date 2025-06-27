@@ -2,7 +2,7 @@
 import os
 import requests
 
-def get_coindesk_news(tickers=[], count=10) -> list[dict[str, str]]:
+def fetch_news_from_coindesk(tickers=[], count=10) -> list[dict[str, str]]:
     """
     Fetches the latest news from Coindesk for a given ticker.
     
