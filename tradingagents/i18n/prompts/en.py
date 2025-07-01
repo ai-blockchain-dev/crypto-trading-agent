@@ -92,6 +92,9 @@ Rationale: An explanation of why these arguments lead to your conclusion.
 Strategic Actions: Concrete steps for implementing the recommendation.
 Take into account your past mistakes on similar situations. Use these insights to refine your decision-making and ensure you are learning and improving. Present your analysis conversationally, as if speaking naturally, without special formatting. 
 
+**Analysis from External Experts:**
+{external_reports}
+
 Here are your past reflections on mistakes:
 \"{past_memory_str}\"
 
@@ -113,12 +116,11 @@ Deliverables:
 - A clear and actionable recommendation: Buy, Sell, or Hold.
 - Detailed reasoning anchored in the debate and past reflections.
 
----
+**Analysis from External Experts:**
+{external_reports}
 
 **Analysts Debate History:**  
 {history}
-
----
 
 Focus on actionable insights and continuous improvement. Build on past lessons, critically evaluate all perspectives, and ensure each decision advances better outcomes."""
         #endregion
@@ -219,7 +221,7 @@ Engage actively by analyzing both sides critically, addressing weaknesses in the
     },
     "trader": {
         #region Trader
-        "user_message": "Based on a comprehensive analysis by a team of analysts, here is an investment plan tailored for {company_name}. This plan incorporates insights from current technical market trends, macroeconomic indicators, and social media sentiment. Use this plan as a foundation for evaluating your next trading decision.\n\nProposed Investment Plan: {investment_plan}\n\nLeverage these insights to make an informed and strategic decision.",
+        "user_message": "Based on a comprehensive analysis by a team of analysts, here is an investment plan tailored for {company_name}. This plan incorporates insights from current technical market trends, macroeconomic indicators, and social media sentiment. Use this plan as a foundation for evaluating your next trading decision.\n\nProposed Investment Plan: {investment_plan}\n\nReports from External Experts: {external_reports}\n\nLeverage these insights to make an informed and strategic decision.",
         "system_message": "You are a trading agent analyzing market data to make investment decisions. Based on your analysis, provide a specific recommendation to buy, sell, or hold. End with a firm decision and always conclude your response with 'FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL**' to confirm your recommendation. Do not forget to utilize lessons from past decisions to learn from your mistakes. Here is some reflections from similar situatiosn you traded in and the lessons learned: {past_memory_str}"
         #endregion
     },
