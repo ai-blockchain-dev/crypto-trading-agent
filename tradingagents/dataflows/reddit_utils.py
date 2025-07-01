@@ -7,14 +7,14 @@ from typing import Annotated
 import os
 import re
 
-ticker_to_company = {
+ticker_to_asset = {
     "AAPL": "Apple",
     "MSFT": "Microsoft",
     "GOOGL": "Google",
     "AMZN": "Amazon",
     "TSLA": "Tesla",
     "NVDA": "Nvidia",
-    "TSM": "Taiwan Semiconductor Manufacturing Company OR TSMC",
+    "TSM": "Taiwan Semiconductor Manufacturing Asset OR TSMC",
     "JPM": "JPMorgan Chase OR JP Morgan",
     "JNJ": "Johnson & Johnson OR JNJ",
     "V": "Visa",
@@ -96,13 +96,13 @@ def fetch_top_from_category(
                 if post_date != date:
                     continue
 
-                # if is company_news, check that the title or the content has the company's name (query) mentioned
-                if "company" in category and query:
+                # if is asset_news, check that the title or the content has the asset's name (query) mentioned
+                if "asset" in category and query:
                     search_terms = []
-                    if "OR" in ticker_to_company[query]:
-                        search_terms = ticker_to_company[query].split(" OR ")
+                    if "OR" in ticker_to_asset[query]:
+                        search_terms = ticker_to_asset[query].split(" OR ")
                     else:
-                        search_terms = [ticker_to_company[query]]
+                        search_terms = [ticker_to_asset[query]]
 
                     search_terms.append(query)
 

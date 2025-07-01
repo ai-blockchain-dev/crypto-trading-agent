@@ -131,7 +131,7 @@ PROMPTS = {
 Market research report: {market_research_report}
 Social media sentiment report: {sentiment_report}
 Latest world affairs news: {news_report}
-Company fundamentals report: {fundamentals_report}
+Asset fundamentals report: {fundamentals_report}
 Conversation history of the debate: {history}
 Last bull argument: {current_response}
 Reflections from similar situations and lessons learned: {past_memory_str}
@@ -152,7 +152,7 @@ Reflections from similar situations and lessons learned: {past_memory_str}
 Market research report: {market_research_report}
 Social media sentiment report: {sentiment_report}
 Latest world affairs news: {news_report}
-Company fundamentals report: {fundamentals_report}
+Asset fundamentals report: {fundamentals_report}
 Conversation history of the debate: {history}
 Last bear argument: {current_response}
 Reflections from similar situations and lessons learned: {past_memory_str}
@@ -169,7 +169,7 @@ Reflections from similar situations and lessons learned: {past_memory_str}
 Market Research Report: {market_research_report}
 Social Media Sentiment Report: {sentiment_report}
 Latest World Affairs Report: {news_report}
-Company Fundamentals Report: {fundamentals_report}
+Asset Fundamentals Report: {fundamentals_report}
 Here is the current conversation history: {history} Here are the last arguments from the conservative analyst: {current_safe_response} Here are the last arguments from the neutral analyst: {current_neutral_response}. If there are no responses from the other viewpoints, do not halluncinate and just present your point.
 
 如果没有其他观点的发言，请不要凭空臆测，只表达你自己的立场。请以对话风格回应具体观点，无需特殊格式，输出务必不超过{max_tokens}tokens。""",
@@ -183,7 +183,7 @@ Here is the current conversation history: {history} Here are the last arguments 
 Market Research Report: {market_research_report}
 Social Media Sentiment Report: {sentiment_report}
 Latest World Affairs Report: {news_report}
-Company Fundamentals Report: {fundamentals_report}
+Asset Fundamentals Report: {fundamentals_report}
 Here is the current conversation history: {history} Here is the last response from the risky analyst: {current_risky_response} Here is the last response from the neutral analyst: {current_neutral_response}. If there are no responses from the other viewpoints, do not halluncinate and just present your point.
 
 如果没有其他观点的发言，请不要凭空臆测，只表达你自己的立场。请以对话风格回应具体观点，无需特殊格式，输出务必不超过{max_tokens}tokens。""",
@@ -197,7 +197,7 @@ Here is the current conversation history: {history} Here is the last response fr
 Market Research Report: {market_research_report}
 Social Media Sentiment Report: {sentiment_report}
 Latest World Affairs Report: {news_report}
-Company Fundamentals Report: {fundamentals_report}
+Asset Fundamentals Report: {fundamentals_report}
 Here is the current conversation history: {history} Here is the last response from the risky analyst: {current_risky_response} Here is the last response from the safe analyst: {current_safe_response}. If there are no responses from the other viewpoints, do not halluncinate and just present your point.
 
 如果没有其他观点的发言，请不要凭空臆测，只表达你自己的立场。请以对话风格回应具体观点，无需特殊格式，输出务必不超过{max_tokens}tokens。"""
@@ -205,7 +205,7 @@ Here is the current conversation history: {history} Here is the last response fr
     },
     "trader": {
         #region Trader
-        "user_message": "以下是针对 {company_name} 的投资建议方案，由多个分析师协作提供，涵盖了技术趋势、宏观指标与社交舆情。请将此方案作为下一步交易决策的参考依据：\n\n建议方案：{investment_plan}\n\n外部专家分析：{external_reports}\n\n请基于此作出合理而有策略的判断。",
+        "user_message": "以下是针对 {asset_name} 的投资建议方案，由多个分析师协作提供，涵盖了技术趋势、宏观指标与社交舆情。请将此方案作为下一步交易决策的参考依据：\n\n建议方案：{investment_plan}\n\n外部专家分析：{external_reports}\n\n请基于此作出合理而有策略的判断。",
         "system_message": "你是一名交易代理，负责根据市场数据做出买入、卖出或持有的明确投资决策。分析结束后，请以 “最终投资建议：BUY/HOLD/SELL” 结尾，明确表达立场。请结合历史经验做出更优判断。以下为你在类似情况中总结的教训：{past_memory_str}"
         #endregion
     },

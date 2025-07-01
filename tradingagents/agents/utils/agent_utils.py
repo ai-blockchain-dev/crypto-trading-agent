@@ -205,20 +205,20 @@ class Toolkit:
     def get_reddit_stock_info(
         ticker: Annotated[
             str,
-            "Ticker of a company. e.g. AAPL, TSM",
+            "Ticker of a asset. e.g. AAPL, TSM",
         ],
         curr_date: Annotated[str, "Current date you want to get news for"],
     ) -> str:
         """
         Retrieve the latest news about a given stock from Reddit, given the current date.
         Args:
-            ticker (str): Ticker of a company. e.g. AAPL, TSM
+            ticker (str): Ticker of a asset. e.g. AAPL, TSM
             curr_date (str): current date in yyyy-mm-dd format to get news for
         Returns:
-            str: A formatted dataframe containing the latest news about the company on the given date
+            str: A formatted dataframe containing the latest news about the asset on the given date
         """
 
-        stock_news_results = interface.get_reddit_company_news(ticker, curr_date, 7, 5)
+        stock_news_results = interface.get_reddit_asset_news(ticker, curr_date, 7, 5)
 
         return stock_news_results
 
@@ -245,16 +245,16 @@ class Toolkit:
     @staticmethod
     @tool
     def get_stock_news_openai(
-        ticker: Annotated[str, "the company's ticker"],
+        ticker: Annotated[str, "the asset's ticker"],
         curr_date: Annotated[str, "Current date in yyyy-mm-dd format"],
     ):
         """
         Retrieve the latest news about a given stock by using OpenAI's news API.
         Args:
-            ticker (str): Ticker of a company. e.g. AAPL, TSM
+            ticker (str): Ticker of a asset. e.g. AAPL, TSM
             curr_date (str): Current date in yyyy-mm-dd format
         Returns:
-            str: A formatted string containing the latest news about the company on the given date.
+            str: A formatted string containing the latest news about the asset on the given date.
         """
 
         openai_news_results = interface.get_stock_news_openai(ticker, curr_date)
@@ -281,16 +281,16 @@ class Toolkit:
     @staticmethod
     @tool
     def get_fundamentals_openai(
-        ticker: Annotated[str, "the company's ticker"],
+        ticker: Annotated[str, "the asset's ticker"],
         curr_date: Annotated[str, "Current date in yyyy-mm-dd format"],
     ):
         """
         Retrieve the latest fundamental information about a given stock on a given date by using OpenAI's news API.
         Args:
-            ticker (str): Ticker of a company. e.g. AAPL, TSM
+            ticker (str): Ticker of a asset. e.g. AAPL, TSM
             curr_date (str): Current date in yyyy-mm-dd format
         Returns:
-            str: A formatted string containing the latest fundamental information about the company on the given date.
+            str: A formatted string containing the latest fundamental information about the asset on the given date.
         """
 
         openai_fundamentals_results = interface.get_fundamentals_openai(

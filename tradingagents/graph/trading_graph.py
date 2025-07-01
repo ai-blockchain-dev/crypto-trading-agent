@@ -147,14 +147,14 @@ class TradingAgentsGraph:
             ),
         }
 
-    def propagate(self, company_name, trade_date):
-        """Run the trading agents graph for a company on a specific date."""
+    def propagate(self, asset_name, trade_date):
+        """Run the trading agents graph for a asset on a specific date."""
 
-        self.ticker = company_name
+        self.ticker = asset_name
 
         # Initialize state
         init_agent_state = self.propagator.create_initial_state(
-            company_name, trade_date
+            asset_name, trade_date
         )
         args = self.propagator.get_graph_args()
 
@@ -185,7 +185,7 @@ class TradingAgentsGraph:
     def _log_state(self, trade_date, final_state):
         """Log the final state to a JSON file."""
         self.log_states_dict[str(trade_date)] = {
-            "company_of_interest": final_state["company_of_interest"],
+            "asset_of_interest": final_state["asset_of_interest"],
             "trade_date": final_state["trade_date"],
             "market_report": final_state["market_report"],
             "sentiment_report": final_state["sentiment_report"],

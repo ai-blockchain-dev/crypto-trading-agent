@@ -50,25 +50,25 @@ class YFinanceUtils:
         stock_info = ticker.info
         return stock_info
 
-    def get_company_info(
+    def get_asset_info(
         symbol: Annotated[str, "ticker symbol"],
         save_path: Optional[str] = None,
     ) -> DataFrame:
-        """Fetches and returns company information as a DataFrame."""
+        """Fetches and returns asset information as a DataFrame."""
         ticker = symbol
         info = ticker.info
-        company_info = {
-            "Company Name": info.get("shortName", "N/A"),
+        asset_info = {
+            "Asset Name": info.get("shortName", "N/A"),
             "Industry": info.get("industry", "N/A"),
             "Sector": info.get("sector", "N/A"),
             "Country": info.get("country", "N/A"),
             "Website": info.get("website", "N/A"),
         }
-        company_info_df = DataFrame([company_info])
+        asset_info_df = DataFrame([asset_info])
         if save_path:
-            company_info_df.to_csv(save_path)
-            print(f"Company info for {ticker.ticker} saved to {save_path}")
-        return company_info_df
+            asset_info_df.to_csv(save_path)
+            print(f"Asset info for {ticker.ticker} saved to {save_path}")
+        return asset_info_df
 
     def get_stock_dividends(
         symbol: Annotated[str, "ticker symbol"],
@@ -83,19 +83,19 @@ class YFinanceUtils:
         return dividends
 
     def get_income_stmt(symbol: Annotated[str, "ticker symbol"]) -> DataFrame:
-        """Fetches and returns the latest income statement of the company as a DataFrame."""
+        """Fetches and returns the latest income statement of the asset as a DataFrame."""
         ticker = symbol
         income_stmt = ticker.financials
         return income_stmt
 
     def get_balance_sheet(symbol: Annotated[str, "ticker symbol"]) -> DataFrame:
-        """Fetches and returns the latest balance sheet of the company as a DataFrame."""
+        """Fetches and returns the latest balance sheet of the asset as a DataFrame."""
         ticker = symbol
         balance_sheet = ticker.balance_sheet
         return balance_sheet
 
     def get_cash_flow(symbol: Annotated[str, "ticker symbol"]) -> DataFrame:
-        """Fetches and returns the latest cash flow statement of the company as a DataFrame."""
+        """Fetches and returns the latest cash flow statement of the asset as a DataFrame."""
         ticker = symbol
         cash_flow = ticker.cashflow
         return cash_flow

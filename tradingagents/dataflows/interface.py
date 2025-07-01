@@ -192,8 +192,8 @@ def get_reddit_global_news(
 
     return f"## Global News Reddit, from {before} to {curr_date}:\n{news_str}"
 
-def get_reddit_company_news(
-    ticker: Annotated[str, "ticker symbol of the company"],
+def get_reddit_asset_news(
+    ticker: Annotated[str, "ticker symbol of the asset"],
     start_date: Annotated[str, "Start date in yyyy-mm-dd format"],
     look_back_days: Annotated[int, "how many days to look back"],
     max_limit_per_day: Annotated[int, "Maximum number of news per day"],
@@ -201,7 +201,7 @@ def get_reddit_company_news(
     """
     Retrieve the latest top reddit news
     Args:
-        ticker: ticker symbol of the company
+        ticker: ticker symbol of the asset
         start_date: Start date in yyyy-mm-dd format
         end_date: End date in yyyy-mm-dd format
     Returns:
@@ -218,14 +218,14 @@ def get_reddit_company_news(
 
     total_iterations = (start_date - curr_date).days + 1
     pbar = tqdm(
-        desc=f"Getting Company News for {ticker} on {start_date}",
+        desc=f"Getting Asset News for {ticker} on {start_date}",
         total=total_iterations,
     )
 
     while curr_date <= start_date:
         curr_date_str = curr_date.strftime("%Y-%m-%d")
         fetch_result = fetch_top_from_category(
-            "company_news",
+            "asset_news",
             curr_date_str,
             max_limit_per_day,
             ticker,
@@ -490,20 +490,20 @@ def get_fundamentals_openai(ticker, curr_date):
 def get_finnhub_news(
     ticker: Annotated[
         str,
-        "Search query of a company's, e.g. 'AAPL, TSM, etc.",
+        "Search query of a asset's, e.g. 'AAPL, TSM, etc.",
     ],
     curr_date: Annotated[str, "Current date in yyyy-mm-dd format"],
     look_back_days: Annotated[int, "how many days to look back"],
 ):
     """
-    Retrieve news about a company within a time frame
+    Retrieve news about a asset within a time frame
 
     Args
-        ticker (str): ticker for the company you are interested in
+        ticker (str): ticker for the asset you are interested in
         start_date (str): Start date in yyyy-mm-dd format
         end_date (str): End date in yyyy-mm-dd format
     Returns
-        str: dataframe containing the news of the company in the time frame
+        str: dataframe containing the news of the asset in the time frame
 
     """
 
@@ -529,8 +529,8 @@ def get_finnhub_news(
     return f"## {ticker} News, from {before} to {curr_date}:\n" + str(combined_result)
 
 @deprecated("Utilities only for stocks are deprecated.")
-def get_finnhub_company_insider_sentiment(
-    ticker: Annotated[str, "ticker symbol for the company"],
+def get_finnhub_asset_insider_sentiment(
+    ticker: Annotated[str, "ticker symbol for the asset"],
     curr_date: Annotated[
         str,
         "current date of you are trading at, yyyy-mm-dd",
@@ -538,9 +538,9 @@ def get_finnhub_company_insider_sentiment(
     look_back_days: Annotated[int, "number of days to look back"],
 ):
     """
-    Retrieve insider sentiment about a company (retrieved from public SEC information) for the past 15 days
+    Retrieve insider sentiment about a asset (retrieved from public SEC information) for the past 15 days
     Args:
-        ticker (str): ticker symbol of the company
+        ticker (str): ticker symbol of the asset
         curr_date (str): current date you are trading on, yyyy-mm-dd
     Returns:
         str: a report of the sentiment in the past 15 days starting at curr_date
@@ -570,7 +570,7 @@ def get_finnhub_company_insider_sentiment(
     )
 
 @deprecated("Utilities only for stocks are deprecated.")
-def get_finnhub_company_insider_transactions(
+def get_finnhub_asset_insider_transactions(
     ticker: Annotated[str, "ticker symbol"],
     curr_date: Annotated[
         str,
@@ -579,12 +579,12 @@ def get_finnhub_company_insider_transactions(
     look_back_days: Annotated[int, "how many days to look back"],
 ):
     """
-    Retrieve insider transcaction information about a company (retrieved from public SEC information) for the past 15 days
+    Retrieve insider transcaction information about a asset (retrieved from public SEC information) for the past 15 days
     Args:
-        ticker (str): ticker symbol of the company
+        ticker (str): ticker symbol of the asset
         curr_date (str): current date you are trading at, yyyy-mm-dd
     Returns:
-        str: a report of the company's insider transaction/trading informtaion in the past 15 days
+        str: a report of the asset's insider transaction/trading informtaion in the past 15 days
     """
 
     date_obj = datetime.strptime(curr_date, "%Y-%m-%d")
@@ -608,7 +608,7 @@ def get_finnhub_company_insider_transactions(
     return (
         f"## {ticker} insider transactions from {before} to {curr_date}:\n"
         + result_str
-        + "The change field reflects the variation in share count—here a negative number indicates a reduction in holdings—while share specifies the total number of shares involved. The transactionPrice denotes the per-share price at which the trade was executed, and transactionDate marks when the transaction occurred. The name field identifies the insider making the trade, and transactionCode (e.g., S for sale) clarifies the nature of the transaction. FilingDate records when the transaction was officially reported, and the unique id links to the specific SEC filing, as indicated by the source. Additionally, the symbol ties the transaction to a particular company, isDerivative flags whether the trade involves derivative securities, and currency notes the currency context of the transaction."
+        + "The change field reflects the variation in share count—here a negative number indicates a reduction in holdings—while share specifies the total number of shares involved. The transactionPrice denotes the per-share price at which the trade was executed, and transactionDate marks when the transaction occurred. The name field identifies the insider making the trade, and transactionCode (e.g., S for sale) clarifies the nature of the transaction. FilingDate records when the transaction was officially reported, and the unique id links to the specific SEC filing, as indicated by the source. Additionally, the symbol ties the transaction to a particular asset, isDerivative flags whether the trade involves derivative securities, and currency notes the currency context of the transaction."
     )
 
 @deprecated("Utilities only for stocks are deprecated.")
@@ -616,7 +616,7 @@ def get_simfin_balance_sheet(
     ticker: Annotated[str, "ticker symbol"],
     freq: Annotated[
         str,
-        "reporting frequency of the company's financial history: annual / quarterly",
+        "reporting frequency of the asset's financial history: annual / quarterly",
     ],
     curr_date: Annotated[str, "current date you are trading at, yyyy-mm-dd"],
 ):
@@ -663,7 +663,7 @@ def get_simfin_cashflow(
     ticker: Annotated[str, "ticker symbol"],
     freq: Annotated[
         str,
-        "reporting frequency of the company's financial history: annual / quarterly",
+        "reporting frequency of the asset's financial history: annual / quarterly",
     ],
     curr_date: Annotated[str, "current date you are trading at, yyyy-mm-dd"],
 ):
@@ -702,7 +702,7 @@ def get_simfin_cashflow(
     return (
         f"## {freq} cash flow statement for {ticker} released on {str(latest_cash_flow['Publish Date'])[0:10]}: \n"
         + str(latest_cash_flow)
-        + "\n\nThis includes metadata like reporting dates and currency, share details, and a breakdown of cash movements. Operating activities show cash generated from core business operations, including net income adjustments for non-cash items and working capital changes. Investing activities cover asset acquisitions/disposals and investments. Financing activities include debt transactions, equity issuances/repurchases, and dividend payments. The net change in cash represents the overall increase or decrease in the company's cash position during the reporting period."
+        + "\n\nThis includes metadata like reporting dates and currency, share details, and a breakdown of cash movements. Operating activities show cash generated from core business operations, including net income adjustments for non-cash items and working capital changes. Investing activities cover asset acquisitions/disposals and investments. Financing activities include debt transactions, equity issuances/repurchases, and dividend payments. The net change in cash represents the overall increase or decrease in the asset's cash position during the reporting period."
     )
 
 @deprecated("Utilities only for stocks are deprecated.")
@@ -710,7 +710,7 @@ def get_simfin_income_statements(
     ticker: Annotated[str, "ticker symbol"],
     freq: Annotated[
         str,
-        "reporting frequency of the company's financial history: annual / quarterly",
+        "reporting frequency of the asset's financial history: annual / quarterly",
     ],
     curr_date: Annotated[str, "current date you are trading at, yyyy-mm-dd"],
 ):
@@ -749,12 +749,12 @@ def get_simfin_income_statements(
     return (
         f"## {freq} income statement for {ticker} released on {str(latest_income['Publish Date'])[0:10]}: \n"
         + str(latest_income)
-        + "\n\nThis includes metadata like reporting dates and currency, share details, and a comprehensive breakdown of the company's financial performance. Starting with Revenue, it shows Cost of Revenue and resulting Gross Profit. Operating Expenses are detailed, including SG&A, R&D, and Depreciation. The statement then shows Operating Income, followed by non-operating items and Interest Expense, leading to Pretax Income. After accounting for Income Tax and any Extraordinary items, it concludes with Net Income, representing the company's bottom-line profit or loss for the period."
+        + "\n\nThis includes metadata like reporting dates and currency, share details, and a comprehensive breakdown of the asset's financial performance. Starting with Revenue, it shows Cost of Revenue and resulting Gross Profit. Operating Expenses are detailed, including SG&A, R&D, and Depreciation. The statement then shows Operating Income, followed by non-operating items and Interest Expense, leading to Pretax Income. After accounting for Income Tax and any Extraordinary items, it concludes with Net Income, representing the asset's bottom-line profit or loss for the period."
     )
 
 @deprecated("Utilities only for stocks are deprecated.")
 def get_stock_stats_indicators_window(
-    symbol: Annotated[str, "ticker symbol of the company"],
+    symbol: Annotated[str, "ticker symbol of the asset"],
     indicator: Annotated[str, "technical indicator to get the analysis and report of"],
     curr_date: Annotated[
         str, "The current trading date you are trading on, YYYY-mm-dd"
@@ -890,7 +890,7 @@ def get_stock_stats_indicators_window(
 
 @deprecated("Utilities only for stocks are deprecated.")
 def get_stockstats_indicator(
-    symbol: Annotated[str, "ticker symbol of the company"],
+    symbol: Annotated[str, "ticker symbol of the asset"],
     indicator: Annotated[str, "technical indicator to get the analysis and report of"],
     curr_date: Annotated[
         str, "The current trading date you are trading on, YYYY-mm-dd"
@@ -919,7 +919,7 @@ def get_stockstats_indicator(
 
 @deprecated("Utilities only for stocks are deprecated.")
 def get_YFin_data_window(
-    symbol: Annotated[str, "ticker symbol of the company"],
+    symbol: Annotated[str, "ticker symbol of the asset"],
     curr_date: Annotated[str, "Start date in yyyy-mm-dd format"],
     look_back_days: Annotated[int, "how many days to look back"],
 ) -> str:
@@ -960,7 +960,7 @@ def get_YFin_data_window(
 
 @deprecated("Utilities only for stocks are deprecated.")
 def get_YFin_data_online(
-    symbol: Annotated[str, "ticker symbol of the company"],
+    symbol: Annotated[str, "ticker symbol of the asset"],
     start_date: Annotated[str, "Start date in yyyy-mm-dd format"],
     end_date: Annotated[str, "Start date in yyyy-mm-dd format"],
 ):
@@ -1002,7 +1002,7 @@ def get_YFin_data_online(
 
 @deprecated("Utilities only for stocks are deprecated.")
 def get_YFin_data(
-    symbol: Annotated[str, "ticker symbol of the company"],
+    symbol: Annotated[str, "ticker symbol of the asset"],
     start_date: Annotated[str, "Start date in yyyy-mm-dd format"],
     end_date: Annotated[str, "Start date in yyyy-mm-dd format"],
 ) -> str:

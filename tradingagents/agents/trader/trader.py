@@ -5,7 +5,7 @@ from tradingagents.i18n import get_prompts
 
 def create_trader(llm, memory):
     def trader_node(state, name):
-        company_name = state["company_of_interest"]
+        asset_name = state["asset_of_interest"]
         investment_plan = state["investment_plan"]
         market_research_report = state["market_report"]
         sentiment_report = state["sentiment_report"]
@@ -23,7 +23,7 @@ def create_trader(llm, memory):
         context = {
             "role": "user",
             "content": get_prompts("trader", "user_message") \
-                .replace("{company_name}", company_name) \
+                .replace("{asset_name}", asset_name) \
                 .replace("{investment_plan}", investment_plan) \
                 .replace("{external_reports}", "\n".join(external_reports))
         }
