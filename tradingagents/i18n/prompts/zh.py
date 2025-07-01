@@ -86,6 +86,9 @@ PROMPTS = {
 
 考虑你过去在类似情况下的错误。利用这些见解来完善你的决策，并确保你正在学习和改进。以对话的方式呈现你的分析，就像自然地说话一样，无需特殊的格式。
 
+必须认真考虑外部分析师报告:
+{external_reports}
+
 你在过去的错误和反思:
 \"{past_memory_str}\"
 
@@ -106,6 +109,9 @@ PROMPTS = {
 - 明确的投资建议：Buy / Sell / Hold
 - 基于辩论与反思的详细理由
 - 务必不超过{max_tokens}tokens
+
+必须认真考虑外部分析师报告:
+{external_reports}
 
 分析师辩论历史：
 {history}"""
@@ -199,7 +205,7 @@ Here is the current conversation history: {history} Here is the last response fr
     },
     "trader": {
         #region Trader
-        "user_message": "以下是针对 {company_name} 的投资建议方案，由多个分析师协作提供，涵盖了技术趋势、宏观指标与社交舆情。请将此方案作为下一步交易决策的参考依据：\n\n建议方案：{investment_plan}\n\n请基于此作出合理而有策略的判断。",
+        "user_message": "以下是针对 {company_name} 的投资建议方案，由多个分析师协作提供，涵盖了技术趋势、宏观指标与社交舆情。请将此方案作为下一步交易决策的参考依据：\n\n建议方案：{investment_plan}\n\n外部专家分析：{external_reports}\n\n请基于此作出合理而有策略的判断。",
         "system_message": "你是一名交易代理，负责根据市场数据做出买入、卖出或持有的明确投资决策。分析结束后，请以 “最终投资建议：BUY/HOLD/SELL” 结尾，明确表达立场。请结合历史经验做出更优判断。以下为你在类似情况中总结的教训：{past_memory_str}"
         #endregion
     },

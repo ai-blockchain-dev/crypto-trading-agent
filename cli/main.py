@@ -459,18 +459,26 @@ def get_user_selections():
     )
     selected_research_depth = select_research_depth()
 
-    # Step 5: OpenAI backend
+    # Step 5: External Reports
     console.print(
         create_question_box(
             get_lang("step5_title"), get_lang("step5_prompt")
         )
     )
-    selected_llm_provider, backend_url = select_llm_provider()
-    
-    # Step 6: Thinking agents
+    external_reports = get_external_reports()
+
+    # Step 6: OpenAI backend
     console.print(
         create_question_box(
             get_lang("step6_title"), get_lang("step6_prompt")
+        )
+    )
+    selected_llm_provider, backend_url = select_llm_provider()
+    
+    # Step 7: Thinking agents
+    console.print(
+        create_question_box(
+            get_lang("step7_title"), get_lang("step7_prompt")
         )
     )
     selected_shallow_thinker = select_shallow_thinking_agent(selected_llm_provider)
@@ -483,6 +491,7 @@ def get_user_selections():
         "research_depth": selected_research_depth,
         "llm_provider": selected_llm_provider.lower(),
         "backend_url": backend_url,
+        "external_reports": external_reports,
         "shallow_thinker": selected_shallow_thinker,
         "deep_thinker": selected_deep_thinker,
     }
@@ -511,6 +520,15 @@ def get_analysis_date():
                 "[red]Error: Invalid date format. Please use YYYY-MM-DD[/red]"
             )
 
+def get_external_reports():
+    """Get external reports from user input."""
+    need_external = typer.confirm(
+        get_lang("step5_prompt"), default=False
+    )
+    if need_external:
+        reports = typer.edit(require_save=False)
+        return reports.replace("\n", "").split("<END>") if reports else []
+    return []
 
 def display_complete_report(final_state):
     """Display the complete analysis report with team-based panels."""
@@ -761,6 +779,10 @@ def run_analysis():
             "System",
             f"Selected analysts: {', '.join(analyst.value for analyst in selections['analysts'])}",
         )
+        message_buffer.add_message(
+            "User",
+            f"External reports: {'<END>\n'.join(selections['external_reports']) if selections['external_reports'] else 'None'}",
+        )
         update_display(layout)
 
         # Reset agent statuses
@@ -786,7 +808,7 @@ def run_analysis():
 
         # Initialize state and get graph args
         init_agent_state = graph.propagator.create_initial_state(
-            selections["ticker"], selections["analysis_date"]
+            selections["ticker"], selections["analysis_date"], selections["external_reports"]
         )
         args = graph.propagator.get_graph_args()
 

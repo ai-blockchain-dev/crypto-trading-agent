@@ -14,6 +14,7 @@ def create_risk_manager(llm, memory):
         news_report = state["news_report"]
         fundamentals_report = state["news_report"]
         sentiment_report = state["sentiment_report"]
+        external_reports = state.get("external_reports", [])
         trader_plan = state["investment_plan"]
 
         curr_situation = f"{market_research_report}\n\n{sentiment_report}\n\n{news_report}\n\n{fundamentals_report}"
@@ -27,7 +28,9 @@ def create_risk_manager(llm, memory):
             .replace("{max_tokens}", str(DEFAULT_CONFIG["max_tokens"])) \
             .replace("{trader_plan}", trader_plan) \
             .replace("{past_memory_str}", past_memory_str) \
-            .replace("{history}", history)
+            .replace("{history}", history) \
+            .replace("{external_reports}", "\n".join(external_reports))
+        
         response = llm.invoke(prompt)
 
         new_risk_debate_state = {

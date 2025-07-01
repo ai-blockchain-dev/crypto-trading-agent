@@ -11,6 +11,7 @@ def create_trader(llm, memory):
         sentiment_report = state["sentiment_report"]
         news_report = state["news_report"]
         fundamentals_report = state["fundamentals_report"]
+        external_reports = state.get("external_reports", [])
 
         curr_situation = f"{market_research_report}\n\n{sentiment_report}\n\n{news_report}\n\n{fundamentals_report}"
         past_memories = memory.get_memories(curr_situation, n_matches=2)
@@ -23,7 +24,8 @@ def create_trader(llm, memory):
             "role": "user",
             "content": get_prompts("trader", "user_message") \
                 .replace("{company_name}", company_name) \
-                .replace("{investment_plan}", investment_plan)
+                .replace("{investment_plan}", investment_plan) \
+                .replace("{external_reports}", "\n".join(external_reports))
         }
 
         messages = [
