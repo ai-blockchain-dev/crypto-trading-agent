@@ -117,6 +117,7 @@ class TradingAgentsGraph:
         return {
             "market": ToolNode(
                 [
+                    self.toolkit.get_taapi_bulk_indicators,
                     self.toolkit.get_binance_data
                 ]
             ),

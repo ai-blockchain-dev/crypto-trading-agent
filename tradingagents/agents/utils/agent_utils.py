@@ -135,6 +135,56 @@ class Toolkit:
     
     @staticmethod
     @tool
+    def get_taapi_bulk_indicators(
+        symbol: Annotated[str, "Ticker symbol of the asset, e.g. 'BTC'"],
+        interval: Annotated[
+            str,
+            "Interval for the data, e.g. '1m', '5m', '1h', '1d'",
+        ] = "15m",
+        ema_period: Annotated[int, "EMA period, default is 30"] = 30,
+        ichimoku_conversionPeriod: Annotated[int, "Ichimoku conversion line period, default is 9"] = 9,
+        ichimoku_basePeriod: Annotated[int, "Ichimoku base line period, default is 26"] = 26,
+        ichimoku_spanPeriod: Annotated[int, "Ichimoku span period, default is 52"] = 52,
+        ichimoku_displacement: Annotated[int, "Ichimoku displacement, default is 26"] = 26,
+        supertrend_period: Annotated[int, "Supertrend period, default is 7"] = 7,
+        supertrend_multiplier: Annotated[float, "Supertrend multiplier, default is 3.0"] = 3.0,
+        psar_start: Annotated[float, "Parabolic SAR start, default is 0.02"] = 0.02,
+        psar_increment: Annotated[float, "Parabolic SAR increment, default is 0.02"] = 0.02,
+        psar_maximum: Annotated[float, "Parabolic SAR maximum, default is 0.2"] = 0.2,
+        donchianchannels_period: Annotated[int, "Donchian Channels period, default is 20"] = 20,
+        macd_optInFastPeriod: Annotated[int, "MACD fast period, default is 12"] = 12,
+        macd_optInSlowPeriod: Annotated[int, "MACD slow period, default is 26"] = 26,
+        macd_optInSignalPeriod: Annotated[int, "MACD signal period, default is 9"] = 9,
+        rsi_period: Annotated[int, "RSI period, default is 14"] = 14,
+        stochrsi_rsiPeriod: Annotated[int, "Stochastic RSI RSI period, default is 14"] = 14,
+        stochrsi_kPeriod: Annotated[int, "Stochastic RSI %K period, default is 5"] = 5,
+        stochrsi_dPeriod: Annotated[int, "Stochastic RSI %D period, default is 3"] = 3,
+        stochrsi_stochasticPeriod: Annotated[int, "Stochastic RSI stochastic period, default is 14"] = 14,
+        trix_period: Annotated[int, "TRIX period, default is 30"] = 30,
+        stc_fastLength: Annotated[int, "STC fast length, default is 23"] = 23,
+        stc_slowLength: Annotated[int, "STC slow length, default is 50"] = 50,
+        stc_cycleLength: Annotated[int, "STC cycle length, default is 10"] = 10,
+        atr_period: Annotated[int, "ATR period, default is 14"] = 14,
+        bbands_period: Annotated[int, "Bollinger Bands period, default is 20"] = 20,
+        bbands_stddev: Annotated[float, "Bollinger Bands standard deviation, default is 2.0"] = 2.0,
+        keltnerchannels_period: Annotated[int, "Keltner Channels period, default is 20"] = 20,
+        keltnerchannels_multiplier: Annotated[float, "Keltner Channels multiplier, default is 2"] = 2,
+        keltnerchannels_atrLength: Annotated[int, "Keltner Channels ATR length, default is 10"] = 10,
+        chop_period: Annotated[int, "Chop period, default is 14"] = 14,
+    ) -> str:
+        """
+        Retrieve bulk technical indicators from TAAPI.io for a given symbol and interval.
+        Args:
+            symbol (str): Ticker symbol of the asset, e.g. 'BTC'
+            interval (str): Interval for the data, e.g. '1m', '5m', '1h', '1d'
+        Returns:
+            str: A formatted string containing the bulk technical indicators from TAAPI.io for the specified symbol and interval.
+        """
+        taapi_bulk_indicators_result = interface.get_taapi_bulk_indicators("BTC", "15m")
+        return taapi_bulk_indicators_result
+
+    @staticmethod
+    @tool
     def get_reddit_news(
         curr_date: Annotated[str, "Date you want to get news for in yyyy-mm-dd format"],
     ) -> str:

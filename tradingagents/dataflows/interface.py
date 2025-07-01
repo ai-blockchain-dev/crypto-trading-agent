@@ -5,6 +5,7 @@ from .reddit_utils import fetch_top_from_category
 from .googlenews_utils import *
 from .binance_utils import *
 from .alternativeme_utils import fetch_fear_and_greed_from_alternativeme
+from .taapi_utils import *
 from dateutil.relativedelta import relativedelta
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -71,6 +72,49 @@ def get_coindesk_news(
 def get_fear_and_greed_index() -> str:
     fng = fetch_fear_and_greed_from_alternativeme()
     return f"""## Fear and Greed Index: {fng[0]}\n0 means \"Extreme Fear\", while 100 means \"Extreme Greed\"\nPrevious daily FnG: {','.join(fng[1:])}"""
+
+def get_taapi_single_indicator(
+    symbol: Annotated[str, "ticker symbol of the asset"],
+    indicator: Annotated[
+        str,
+        "Technical analysis indicator to fetch, e.g., 'sma', 'ema', 'rsi', 'macd', etc.",
+    ],
+    interval: Annotated[str, "time interval for the data, e.g., '1m', '5m', '1h'"] = "15m",
+) -> str:
+    """
+    Fetch technical analysis indicators for a given symbol and interval.
+
+    Args:
+        symbol (str): The trading pair symbol (e.g., 'BTCUSDT').
+        indicator (str): The technical analysis indicator to fetch (e.g., 'sma', 'ema', 'rsi', 'macd').
+        interval (str): The time interval for the data (e.g., '1m', '5m', '1h').
+
+    Returns:
+        str: A formatted string containing the latest technical analysis indicators.
+    """
+    ta_data = fetch_ta_from_taapi(symbol, indicator, interval)
+    return f"## {symbol} Technical Analysis ({indicator}) at {interval}: {ta_data}\n"
+
+def get_taapi_bulk_indicators(
+    symbol: Annotated[str, "ticker symbol of the asset"],
+    interval: Annotated[str, "time interval for the data, e.g., '1m', '5m', '1h'"] = "15m",
+    **kwargs: dict
+) -> str:
+    """
+    Fetch bulk technical analysis indicators for a given symbol and interval.
+
+    Args:
+        symbol (str): The trading pair symbol (e.g., 'BTC/USDT').
+        interval (str): The time interval for the data (e.g., '1m', '5m', '1h').
+        **kwargs: Additional parameters for the indicators.
+    Returns:
+        str: A formatted string containing the latest technical analysis indicators.
+    """
+    bulk = TAAPIBulkUtils(symbol, bulk_interval=interval, **kwargs)
+    trend_momentum = bulk.fetch_trend_momentum_indicators_from_taapi()
+    volatility_structure = bulk.fetch_volatility_structure_indicators_from_taapi()
+    return f"## {symbol} Trend and Momentum Indicators at {interval}:\n{trend_momentum}\n\n" + \
+            f"## {symbol} Volatility and Pattern Indicators at {interval}:\n{volatility_structure}\n"
 
 def get_google_news(
     query: Annotated[str, "Query to search with"],

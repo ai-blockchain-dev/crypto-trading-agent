@@ -12,7 +12,8 @@ def create_market_analyst(llm, toolkit):
         company_name = state["company_of_interest"]
 
         tools = [
-            toolkit.get_binance_data
+            toolkit.get_binance_data,
+            toolkit.get_taapi_bulk_indicators
         ]
 
         system_message = (

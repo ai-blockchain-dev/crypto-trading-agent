@@ -11,3 +11,4 @@ eval_data/
 .env.local
 
 */reports/*
+tests/

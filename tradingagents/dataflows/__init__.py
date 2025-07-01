@@ -1,10 +1,6 @@
-from .blockbeats_utils import fetch_news_from_blockbeats
-from .coindesk_utils import fetch_news_from_coindesk
-from .googlenews_utils import getNewsData
-from .binance_utils import *
-from .reddit_utils import fetch_top_from_category
 
 from .interface import (
+    # Universal functions
     get_binance_ohlcv,
     # News and sentiment functions
     get_blockbeats_news,
@@ -16,7 +12,7 @@ from .interface import (
     # Financial statements functions
     # TODO
     # Technical analysis functions
-    # TODO
+    get_taapi_bulk_indicators,
     # Market data functions
     get_binance_data
 )
@@ -33,7 +29,7 @@ __all__ = [
     # Financial statements functions
     # TODO
     # Technical analysis functions
-    # TODO
+    "get_taapi_bulk_indicators",
     # Market data functions
     "get_binance_data"
 ]
