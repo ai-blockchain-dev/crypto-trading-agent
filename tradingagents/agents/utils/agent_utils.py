@@ -85,6 +85,26 @@ class Toolkit:
     
     @staticmethod
     @tool
+    def get_binance_ohlcv(
+        symbol: Annotated[str, "ticker symbol of the asset"],
+        interval: Annotated[
+            str,
+            "Interval for the data, e.g. '1m', '5m', '1h', '1d'",
+        ] = "15m",
+    ) -> str:
+        """
+        Retrieve the latest OHLCV data from Binance for a given symbol and interval.
+        Args:
+            symbol (str): Ticker symbol of the asset, e.g. 'BTCUSDT'
+            interval (str): Interval for the data, e.g. '1m', '5m', '1h', '1d'
+        Returns:
+            str: A formatted string containing the latest OHLCV data from Binance for the specified symbol and interval.
+        """
+        binance_ohlcv_result = interface.get_binance_ohlcv(symbol, interval)
+        return binance_ohlcv_result
+    
+    @staticmethod
+    @tool
     def get_binance_data(
         symbol: Annotated[str, "ticker symbol of the asset"],
         interval: Annotated[
@@ -102,7 +122,17 @@ class Toolkit:
         """
         binance_data_result = interface.get_binance_data(symbol, interval)
         return binance_data_result
-
+    
+    @staticmethod
+    @tool
+    def get_fear_and_greed_index() -> str:
+        """
+        Get current crypto market Fear and Greed Index. 0 means "Extreme Fear", while 100 means "Extreme Greed"
+        Returns:
+            str: A formatted string containing the current crypto market Fear and Greed Index.
+        """
+        return interface.get_fear_and_greed_index()
+    
     @staticmethod
     @tool
     def get_reddit_news(

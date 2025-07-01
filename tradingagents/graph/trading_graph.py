@@ -122,12 +122,15 @@ class TradingAgentsGraph:
             ),
             "social": ToolNode(
                 [
-                    self.toolkit.get_stock_news_openai,
-                    self.toolkit.get_reddit_stock_info,
+                    self.toolkit.get_binance_ohlcv,
+                    self.toolkit.get_fear_and_greed_index,
+                    # self.toolkit.get_stock_news_openai,
+                    # self.toolkit.get_reddit_stock_info,
                 ]
             ),
             "news": ToolNode(
                 [
+                    self.toolkit.get_binance_ohlcv,
                     # self.toolkit.get_global_news_openai,
                     # self.toolkit.get_google_news,
                     self.toolkit.get_blockbeats_news,
@@ -137,6 +140,7 @@ class TradingAgentsGraph:
             ),
             "fundamentals": ToolNode(
                 [
+                    self.toolkit.get_binance_ohlcv,
                     self.toolkit.get_fundamentals_openai
                 ]
             ),

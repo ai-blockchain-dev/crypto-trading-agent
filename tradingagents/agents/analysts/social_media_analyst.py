@@ -11,8 +11,10 @@ def create_social_media_analyst(llm, toolkit):
         company_name = state["company_of_interest"]
 
         tools = [
-            toolkit.get_stock_news_openai,
-            toolkit.get_reddit_stock_info
+            toolkit.get_binance_ohlcv,
+            toolkit.get_fear_and_greed_index,
+            # toolkit.get_stock_news_openai,
+            # toolkit.get_reddit_stock_info
         ]
 
         system_message = (

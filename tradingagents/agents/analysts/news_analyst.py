@@ -10,11 +10,13 @@ def create_news_analyst(llm, toolkit):
         ticker = state["company_of_interest"]
 
         tools = [
+            toolkit.get_binance_ohlcv,
             # toolkit.get_global_news_openai, 
             # toolkit.get_google_news,
             # toolkit.get_reddit_news,
             toolkit.get_blockbeats_news,
             toolkit.get_coindesk_news,
+            toolkit.get_fear_and_greed_index
         ]
 
         system_message = (

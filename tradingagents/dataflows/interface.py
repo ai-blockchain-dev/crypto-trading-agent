@@ -2,11 +2,9 @@ from typing import Annotated, Dict
 from .blockbeats_utils import fetch_news_from_blockbeats
 from .coindesk_utils import fetch_news_from_coindesk
 from .reddit_utils import fetch_top_from_category
-from .yfin_utils import *
-from .stockstats_utils import *
 from .googlenews_utils import *
 from .binance_utils import *
-from .finnhub_utils import get_data_in_range
+from .alternativeme_utils import fetch_fear_and_greed_from_alternativeme
 from dateutil.relativedelta import relativedelta
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -14,10 +12,14 @@ import json
 import os
 import pandas as pd
 from tqdm import tqdm
-import yfinance as yf
 from openai import OpenAI
 from .config import get_config, set_config, DATA_DIR
+
 from warnings import deprecated
+from .yfin_utils import *
+from .stockstats_utils import *
+from .finnhub_utils import get_data_in_range
+import yfinance as yf
 
 def get_blockbeats_news(count: Annotated[int, "news' count, no more than 30"] = 10):
     """
@@ -65,6 +67,10 @@ def get_coindesk_news(
         news_str += f"### {entry['title']} ({', '.join(entry['categories'])})\n\n{entry['body']}\n\n"
 
     return f"## Coindesk News:\n\n{news_str}"
+
+def get_fear_and_greed_index() -> str:
+    fng = fetch_fear_and_greed_from_alternativeme()
+    return f"""## Fear and Greed Index: {fng[0]}\n0 means \"Extreme Fear\", while 100 means \"Extreme Greed\"\nPrevious daily FnG: {','.join(fng[1:])}"""
 
 def get_google_news(
     query: Annotated[str, "Query to search with"],
@@ -199,6 +205,30 @@ def get_reddit_company_news(
             news_str += f"### {post['title']}\n\n{post['content']}\n\n"
 
     return f"##{ticker} News Reddit, from {before} to {curr_date}:\n\n{news_str}"
+
+def get_binance_ohlcv(
+    symbol: Annotated[str, "ticker symbol of the asset"],
+    interval: Annotated[str, "time interval for the data, e.g., '1m', '5m', '1h'"],
+) -> str:
+    """
+    Fetch the latest OHLCV (Open, High, Low, Close, Volume) data from Binance for a given symbol and interval.
+
+    Args:
+        symbol (str): The trading pair symbol (e.g., 'BTCUSDT').
+        interval (str): The time interval for the OHLCV data (e.g., '1m', '5m', '1h').
+    Returns:
+        str: A formatted string containing the latest OHLCV data.
+    """
+    symbol = symbol.upper().strip()
+    if not symbol.endswith("USDT"):
+        symbol += "USDT"
+
+    ohlcv = fetch_ohlcv_from_binance(symbol, interval)
+    if ohlcv is dict:
+        return (
+            f"## {symbol} Futures **Latest OHLCV Data** in last {interval}:\n"
+            f"Open: {ohlcv['open']}, High: {ohlcv['high']}, Low: {ohlcv['low']}, Close: {ohlcv['close']}, Volume: {ohlcv['volume']}\n"
+        )
 
 def get_binance_data(
     symbol: Annotated[str, "ticker symbol of the asset"],
