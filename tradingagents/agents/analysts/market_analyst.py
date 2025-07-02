@@ -10,6 +10,7 @@ def create_market_analyst(llm, toolkit):
         current_date = state["trade_date"]
         ticker = state["asset_of_interest"]
         asset_name = state["asset_of_interest"]
+        investment_preferences = state.get("investment_preferences", "")
 
         tools = [
             toolkit.get_binance_data,
@@ -26,6 +27,11 @@ def create_market_analyst(llm, toolkit):
                 (
                     "system",
                     get_prompts("analysts", "template")
+                ),
+                (
+                    "system",
+                    get_prompts("user_preferences", "system_message")
+                        .replace("{investment_preferences}", investment_preferences)
                 ),
                 MessagesPlaceholder(variable_name="messages"),
             ]

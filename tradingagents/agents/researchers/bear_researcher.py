@@ -15,6 +15,7 @@ def create_bear_researcher(llm, memory):
         sentiment_report = state["sentiment_report"]
         news_report = state["news_report"]
         fundamentals_report = state["fundamentals_report"]
+        investment_preferences = state.get("investment_preferences", "")
 
         curr_situation = f"{market_research_report}\n\n{sentiment_report}\n\n{news_report}\n\n{fundamentals_report}"
         past_memories = memory.get_memories(curr_situation, n_matches=2)
@@ -31,7 +32,10 @@ def create_bear_researcher(llm, memory):
             .replace("{fundamentals_report}", fundamentals_report) \
             .replace("{history}", history) \
             .replace("{current_response}", current_response) \
-            .replace("{past_memory_str}", past_memory_str)
+            .replace("{past_memory_str}", past_memory_str) \
+            + "\n\n" \
+            + get_prompts("investment_preferences", "system_message") \
+            .replace("{investment_preferences}", investment_preferences)
 
         response = llm.invoke(prompt)
 

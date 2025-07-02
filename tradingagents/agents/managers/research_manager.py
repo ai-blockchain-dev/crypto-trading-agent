@@ -10,6 +10,7 @@ def create_research_manager(llm, memory):
         sentiment_report = state["sentiment_report"]
         news_report = state["news_report"]
         fundamentals_report = state["fundamentals_report"]
+        investment_preferences = state.get("investment_preferences", "")
         external_reports = state.get("external_reports", [])
 
         investment_debate_state = state["investment_debate_state"]
@@ -25,8 +26,10 @@ def create_research_manager(llm, memory):
             .replace("{max_tokens}", str(DEFAULT_CONFIG["max_tokens"])) \
             .replace("{past_memory_str}", past_memory_str) \
             .replace("{history}", history) \
-            .replace("{external_reports}", "\n".join(external_reports))
-        
+            .replace("{external_reports}", "\n".join(external_reports)) \
+            + "\n\n" \
+            + get_prompts("investment_preferences", "system_message") \
+            .replace("{investment_preferences}", investment_preferences)
         response = llm.invoke(prompt)
 
         new_investment_debate_state = {

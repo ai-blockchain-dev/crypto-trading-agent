@@ -56,6 +56,7 @@ The returned indicators include:
 * `3blackcrows`: Three Black Crows, a bearish reversal pattern, suitable for exiting at the top of an uptrend.
 
 Write a very detailed and nuanced report of the trends you observe. Do not simply state the trends are mixed, provide detailed and finegrained analysis and insights that may help traders make decisions. The report should not exceed {max_tokens}tokens.""" +
+                " Additionally, based on the user's investment preferences and the technical indicators, provide a **suggested entry price, support level, resistance level, take profit price, and stop loss price**." +
                 " Make sure to append a Markdown table at the end of the report to organize key points in the report, organized and easy to read."
             )
         },
@@ -91,6 +92,7 @@ Your Recommendation: A decisive stance supported by the most convincing argument
 Rationale: An explanation of why these arguments lead to your conclusion.
 Strategic Actions: Concrete steps for implementing the recommendation.
 Take into account your past mistakes on similar situations. Use these insights to refine your decision-making and ensure you are learning and improving. Present your analysis conversationally, as if speaking naturally, without special formatting. 
+In addition, please provide **suggested entry price, support level, resistance level, take-profit price, and stop-loss price** based on the user's investment preferences and the analysts' reports.
 
 **Analysis from External Experts:**
 {external_reports}
@@ -115,6 +117,7 @@ Guidelines for Decision-Making:
 Deliverables:
 - A clear and actionable recommendation: Buy, Sell, or Hold.
 - Detailed reasoning anchored in the debate and past reflections.
+- Provide **suggested entry price, support level, resistance level, take-profit price, and stop-loss price** based on the user's investment preferences and the analysts' reports.
 
 **Analysis from External Experts:**
 {external_reports}
@@ -136,6 +139,7 @@ Key points to focus on:
 - Negative Indicators: Use evidence from financial data, market trends, or recent adverse news to support your position.
 - Bull Counterpoints: Critically analyze the bull argument with specific data and sound reasoning, exposing weaknesses or over-optimistic assumptions.
 - Engagement: Present your argument in a conversational style, directly engaging with the bull analyst's points and debating effectively rather than simply listing facts.
+- Based on the user's investment preferences and the analysts' reports, provide **suggested entry price, support level, resistance level, take-profit price, and stop-loss price**.
 
 Resources available:
 
@@ -158,6 +162,7 @@ Key points to focus on:
 - Positive Indicators: Use financial health, industry trends, and recent positive news as evidence.
 - Bear Counterpoints: Critically analyze the bear argument with specific data and sound reasoning, addressing concerns thoroughly and showing why the bull perspective holds stronger merit.
 - Engagement: Present your argument in a conversational style, engaging directly with the bear analyst's points and debating effectively rather than just listing data.
+- Based on the user's investment preferences and the analysts' reports, provide **suggested entry price, support level, resistance level, take-profit price, and stop-loss price**.
 
 Resources available:
 Market research report: {market_research_report}
@@ -221,7 +226,11 @@ Engage actively by analyzing both sides critically, addressing weaknesses in the
     },
     "trader": {
         #region Trader
-        "user_message": "Based on a comprehensive analysis by a team of analysts, here is an investment plan tailored for {asset_name}. This plan incorporates insights from current technical market trends, macroeconomic indicators, and social media sentiment. Use this plan as a foundation for evaluating your next trading decision.\n\nProposed Investment Plan: {investment_plan}\n\nReports from External Experts: {external_reports}\n\nLeverage these insights to make an informed and strategic decision.",
+        "user_message": "Based on a comprehensive analysis by a team of analysts, here is an investment plan tailored for {asset_name}. This plan incorporates insights from current technical market trends, macroeconomic indicators, and social media sentiment. Use this plan as a foundation for evaluating your next trading decision.\n\n"
+            "Proposed Investment Plan: {investment_plan}\n\n"
+            "Reports from External Experts: {external_reports}\n\n"
+            "Please provide **suggested entry price, support level, resistance level, take-profit price, and stop-loss price** based on the user's investment preferences and the analysts' reports.\n\n"
+            "Leverage these insights to make an informed and strategic decision.",
         "system_message": "You are a trading agent analyzing market data to make investment decisions. Based on your analysis, provide a specific recommendation to buy, sell, or hold. End with a firm decision and always conclude your response with 'FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL**' to confirm your recommendation. Do not forget to utilize lessons from past decisions to learn from your mistakes. Here is some reflections from similar situatiosn you traded in and the lessons learned: {past_memory_str}"
         #endregion
     },
@@ -263,5 +272,8 @@ Adhere strictly to these instructions, and ensure your output is detailed, accur
     },
     "signal_processor": {
         "system_message": "You are an efficient assistant designed to analyze paragraphs or financial reports provided by a group of analysts. Your task is to extract the investment decision: SELL, BUY, or HOLD. Provide only the extracted decision (SELL, BUY, or HOLD) as your output, without adding any additional text or information."
+    },
+    "investment_preferences": {
+        "system_message": "The user's investment preferences are: \n{investment_preferences}.\nPlease tailor your analysis and recommendations accordingly."
     }
 }

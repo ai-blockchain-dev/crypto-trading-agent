@@ -21,7 +21,7 @@ PROMPTS = {
             "system_message": (
                 """你是一名交易助理，负责分析金融市场走势。请调用 get_binance_data 以获取资产的 K 线、深度、24 小时价格变化、多空比等数据，为了获取中短期的数据，传入 interval 参数时，请保证其范围为5m至1d之间，此外，必须分析15m和1h的趋势。
 你还必须调用 get_taapi_bulk_indicators 以获取并分析趋势动量指标、波动率结构指标等，传入 interval 参数时，请保证其范围为5m至1d之间，注意，**get_taapi_bulk_indicators 工具只能调用一次**。
-返回的指标包括：
+工具指标包括：
 
 趋势类指标：
 - ema: 指数加权均线，判断中短期趋势，反应快但易被震荡干扰
@@ -52,6 +52,7 @@ PROMPTS = {
 - 3blackcrows: 三黑鸦，空头反转形态，适合高位反转波段出场
 
 写一份详细但不超过 {max_tokens}tokens 的报告，说明你观察到的趋势。不要简单地说趋势是混合的，提供详细和细粒度的分析和见解，以帮助交易者做出决策。""" +
+                " 此外，请根据用户的投资偏好和各项技术指标，给出**建议开仓价格、支撑位、阻力位、止盈价和止损价**。" +
                 " 最后请附上一张 Markdown 表格，总结并清晰地整理报告中的关键要点，便于阅读和参考。"
             )
         },
@@ -83,6 +84,7 @@ PROMPTS = {
 投资建议：Buy / Sell / Hold（三选一，必须明确，避免默认中立）
 推荐理由：说明为何你支持该立场，引用论据
 策略行动：基于建议提出具体的执行计划
+此外，请根据用户的投资偏好和分析师的报告，给出**建议开仓价格、支撑位、阻力位、止盈价和止损价**。
 
 考虑你过去在类似情况下的错误。利用这些见解来完善你的决策，并确保你正在学习和改进。以对话的方式呈现你的分析，就像自然地说话一样，无需特殊的格式。
 
@@ -108,6 +110,7 @@ PROMPTS = {
 输出要求：
 - 明确的投资建议：Buy / Sell / Hold
 - 基于辩论与反思的详细理由
+- 根据用户的投资偏好和分析师的报告，给出**建议开仓价格、支撑位、阻力位、止盈价和止损价**
 - 务必不超过{max_tokens}tokens
 
 必须认真考虑外部分析师报告:
@@ -126,6 +129,7 @@ PROMPTS = {
 - 消极信号：引用财务数据、市场趋势或不利新闻。
 - 批驳多头观点：针对其论据进行具体的数据反驳，揭示其乐观假设的问题。
 - 交互性表达：使用对话风格回应多头观点，避免只是罗列事实。
+- 根据用户的投资偏好和分析师的报告，给出**建议开仓价格、支撑位、阻力位、止盈价和止损价**
 
 你可以参考以下资源进行论证：
 Market research report: {market_research_report}
@@ -147,6 +151,7 @@ Reflections from similar situations and lessons learned: {past_memory_str}
 - 积极信号：引用财务健康、行业趋势、利好新闻。
 - 批驳空头观点：针对其忧虑进行数据支持的澄清与反驳。
 - 交互性表达：以对话形式回应空头论点，提升说服力。
+- 根据用户的投资偏好和分析师的报告，给出**建议开仓价格、支撑位、阻力位、止盈价和止损价**
 
 你可以参考以下资源进行论证：
 Market research report: {market_research_report}
@@ -205,7 +210,10 @@ Here is the current conversation history: {history} Here is the last response fr
     },
     "trader": {
         #region Trader
-        "user_message": "以下是针对 {asset_name} 的投资建议方案，由多个分析师协作提供，涵盖了技术趋势、宏观指标与社交舆情。请将此方案作为下一步交易决策的参考依据：\n\n建议方案：{investment_plan}\n\n外部专家分析：{external_reports}\n\n请基于此作出合理而有策略的判断。",
+        "user_message": """以下是针对 {asset_name} 的投资建议方案，由多个分析师协作提供，涵盖了技术趋势、宏观指标与社交舆情。请将此方案作为下一步交易决策的参考依据：
+建议方案：{investment_plan}\n
+外部专家分析：{external_reports}\n
+请基于此作出合理而有策略的判断，并根据用户的投资偏好和分析师的报告，给出**建议开仓价格、支撑位、阻力位、止盈价和止损价**。""",
         "system_message": "你是一名交易代理，负责根据市场数据做出买入、卖出或持有的明确投资决策。分析结束后，请以 “最终投资建议：BUY/HOLD/SELL” 结尾，明确表达立场。请结合历史经验做出更优判断。以下为你在类似情况中总结的教训：{past_memory_str}"
         #endregion
     },
@@ -233,5 +241,8 @@ Here is the current conversation history: {history} Here is the last response fr
     },
     "signal_processor": {
         "system_message": "你是一个高效的助手，旨在分析一组分析师提供的段落或财务报告。你的任务是提取投资决策：SELL、BUY或HOLD。仅提供提取的决策（SELL/BUI/HOLD）作为输出，不添加任何其他文本或信息。"
+    },
+    "investment_preferences": {
+        "system_message": "用户的投资偏好为：\n{investment_preferences}\n请根据这些偏好来调整你的分析和建议。"
     }
 }

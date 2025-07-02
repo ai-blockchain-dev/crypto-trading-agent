@@ -467,18 +467,26 @@ def get_user_selections():
     )
     external_reports = get_external_reports()
 
-    # Step 6: OpenAI backend
+    # Step 6: Investment preferences
     console.print(
         create_question_box(
             get_lang("step6_title"), get_lang("step6_prompt")
         )
     )
-    selected_llm_provider, backend_url = select_llm_provider()
-    
-    # Step 7: Thinking agents
+    investment_preferences = get_investment_preferences()
+
+    # Step 7: OpenAI backend
     console.print(
         create_question_box(
             get_lang("step7_title"), get_lang("step7_prompt")
+        )
+    )
+    selected_llm_provider, backend_url = select_llm_provider()
+    
+    # Step 8: Thinking agents
+    console.print(
+        create_question_box(
+            get_lang("step8_title"), get_lang("step8_prompt")
         )
     )
     selected_shallow_thinker = select_shallow_thinking_agent(selected_llm_provider)
@@ -489,6 +497,7 @@ def get_user_selections():
         "analysis_date": analysis_date,
         "analysts": selected_analysts,
         "research_depth": selected_research_depth,
+        "investment_preferences": investment_preferences,
         "llm_provider": selected_llm_provider.lower(),
         "backend_url": backend_url,
         "external_reports": external_reports,
@@ -519,6 +528,30 @@ def get_analysis_date():
             console.print(
                 "[red]Error: Invalid date format. Please use YYYY-MM-DD[/red]"
             )
+
+def get_investment_preferences():
+    need_preferences = typer.confirm(
+        get_lang("step6_prompt"), default=True
+    )
+    if need_preferences:
+        # check if `investment_preferences` file exists
+        try:
+            with open("./cli/investment_preferences", "r") as f:
+                preferences = f.read()
+                if preferences:
+                    use_saved = typer.confirm(
+                        get_lang("step6_pref_found_prompt"), default=True
+                    )
+                    if use_saved:
+                        return preferences
+                    else:
+                        preferences = typer.edit(require_save=False)
+                        return preferences if preferences else ""
+        except FileNotFoundError:
+            console.print("[yellow]No file named 'investment_preferences' found.[/yellow]")
+            preferences = typer.edit(require_save=False)
+            return preferences if preferences else ""
+    return ""
 
 def get_external_reports():
     """Get external reports from user input."""
@@ -781,6 +814,10 @@ def run_analysis():
         )
         message_buffer.add_message(
             "User",
+            f"User preferences: {selections['investment_preferences'] if selections['investment_preferences'] else 'None'}",
+        )
+        message_buffer.add_message(
+            "User",
             f"External reports: {'<END>\n'.join(selections['external_reports']) if selections['external_reports'] else 'None'}",
         )
         update_display(layout)
@@ -808,7 +845,9 @@ def run_analysis():
 
         # Initialize state and get graph args
         init_agent_state = graph.propagator.create_initial_state(
-            selections["ticker"], selections["analysis_date"], selections["external_reports"]
+            selections["ticker"], selections["analysis_date"], 
+            selections["investment_preferences"],
+            selections["external_reports"]
         )
         args = graph.propagator.get_graph_args()
 

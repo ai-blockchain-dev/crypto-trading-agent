@@ -14,6 +14,7 @@ def create_risk_manager(llm, memory):
         news_report = state["news_report"]
         fundamentals_report = state["news_report"]
         sentiment_report = state["sentiment_report"]
+        investment_preferences = state.get("investment_preferences", "")
         external_reports = state.get("external_reports", [])
         trader_plan = state["investment_plan"]
 
@@ -29,7 +30,10 @@ def create_risk_manager(llm, memory):
             .replace("{trader_plan}", trader_plan) \
             .replace("{past_memory_str}", past_memory_str) \
             .replace("{history}", history) \
-            .replace("{external_reports}", "\n".join(external_reports))
+            .replace("{external_reports}", "\n".join(external_reports)) \
+            + "\n\n" \
+            + get_prompts("investment_preferences", "system_message") \
+            .replace("{investment_preferences}", investment_preferences)
         
         response = llm.invoke(prompt)
 

@@ -50,6 +50,7 @@ class RiskDebateState(TypedDict):
 class AgentState(MessagesState):
     asset_of_interest: Annotated[str, "Asset that we are interested in trading"]
     trade_date: Annotated[str, "What date we are trading at"]
+    investment_preferences: Annotated[str, "User's investment preferences"]
 
     sender: Annotated[str, "Agent that sent this message"]
 
