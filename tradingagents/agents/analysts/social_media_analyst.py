@@ -13,6 +13,7 @@ def create_social_media_analyst(llm, toolkit):
         tools = [
             toolkit.get_binance_ohlcv,
             toolkit.get_fear_and_greed_index,
+            toolkit.get_coinstats_btc_dominance
             # toolkit.get_stock_news_openai,
             # toolkit.get_reddit_stock_info
         ]

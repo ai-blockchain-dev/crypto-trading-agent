@@ -12,6 +12,7 @@ def create_fundamentals_analyst(llm, toolkit):
 
         tools = [
             toolkit.get_binance_ohlcv,
+            toolkit.get_coinstats_btc_dominance,
             toolkit.get_fundamentals_openai
         ]
 

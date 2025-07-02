@@ -1,6 +1,7 @@
 from typing import Annotated, Dict
 from .blockbeats_utils import fetch_news_from_blockbeats
 from .coindesk_utils import fetch_news_from_coindesk
+from .coinstats_utils import *
 from .reddit_utils import fetch_top_from_category
 from .googlenews_utils import *
 from .binance_utils import *
@@ -73,6 +74,16 @@ def get_fear_and_greed_index() -> str:
     fng = fetch_fear_and_greed_from_alternativeme()
     return f"""## Fear and Greed Index: {fng[0]}\n0 means \"Extreme Fear\", while 100 means \"Extreme Greed\"\nPrevious daily FnG: {','.join(fng[1:])}"""
 
+def get_coinstats_btc_dominance() -> str:
+    """
+    Fetch the current Bitcoin dominance percentage from CoinStats API.
+
+    Returns:
+        str: A formatted string containing Bitcoin dominance for 24 hours and 1 week.
+    """
+    btc_dominance = fetch_btc_dominance_from_coinstats()
+    return f"## Bitcoin Dominance:\n24h: {btc_dominance['24h']}%, 1week: {btc_dominance['1w']}%"
+
 def get_taapi_single_indicator(
     symbol: Annotated[str, "ticker symbol of the asset"],
     indicator: Annotated[
@@ -115,6 +126,21 @@ def get_taapi_bulk_indicators(
     volatility_structure = bulk.fetch_volatility_structure_indicators_from_taapi()
     return f"## {symbol} Trend and Momentum Indicators at {interval}:\n{trend_momentum}\n\n" + \
             f"## {symbol} Volatility and Pattern Indicators at {interval}:\n{volatility_structure}\n"
+
+def get_coinstats_news() -> str:
+    """
+    Fetch the latest news from CoinStats API.
+
+    Returns:
+        str: A formatted string containing the latest news articles and meta information.
+    """
+    news = fetch_news_from_coinstats()
+    if len(news) == 0:
+        return ""
+    news_str = ""
+    for article in news:
+        news_str += f"### {article['title']} (source: {article['source']})\n{article['description']}\n\n"
+    return f"## CoinStats News:\n{news_str}"
 
 def get_google_news(
     query: Annotated[str, "Query to search with"],

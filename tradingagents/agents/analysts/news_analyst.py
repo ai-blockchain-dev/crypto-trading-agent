@@ -16,6 +16,7 @@ def create_news_analyst(llm, toolkit):
             # toolkit.get_reddit_news,
             toolkit.get_blockbeats_news,
             toolkit.get_coindesk_news,
+            toolkit.get_coinstats_news,
             toolkit.get_fear_and_greed_index
         ]
 

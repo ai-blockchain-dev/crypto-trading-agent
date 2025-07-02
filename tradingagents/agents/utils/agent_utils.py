@@ -85,6 +85,17 @@ class Toolkit:
     
     @staticmethod
     @tool
+    def get_coinstats_news() -> str:
+        """
+        Retrieve the latest news from CoinStats.
+        Returns:
+            str: A formatted string containing the latest news from CoinStats.
+        """
+        coinstats_news_result = interface.get_coinstats_news()
+        return coinstats_news_result
+    
+    @staticmethod
+    @tool
     def get_binance_ohlcv(
         symbol: Annotated[str, "ticker symbol of the asset"],
         interval: Annotated[
@@ -102,6 +113,17 @@ class Toolkit:
         """
         binance_ohlcv_result = interface.get_binance_ohlcv(symbol, interval)
         return binance_ohlcv_result
+    
+    @staticmethod
+    @tool
+    def get_coinstats_btc_dominance() -> str:
+        """
+        Retrieve the current Bitcoin dominance percentage from CoinStats.
+        Returns:
+            str: A formatted string containing the last daily and weekly Bitcoin dominance percentage.
+        """
+        btc_dominance_result = interface.get_coinstats_btc_dominance()
+        return btc_dominance_result
     
     @staticmethod
     @tool
