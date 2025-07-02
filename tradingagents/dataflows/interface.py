@@ -303,7 +303,7 @@ def get_binance_data(
     if klines is not None and len(klines) != 0:
         klines = list(map(lambda x: { "t": x[0], "o": x[1], "h": x[2], "l": x[3], "c": x[4], "v": x[5] }, klines))
         klines_str = f"## {symbol} Futures **KLines Data** for {interval} interval:\n" + "\n".join(
-            [f"{entry["t"]}: Open: {entry["o"]}, High: {entry["h"]}, Low: {entry["l"]}, Close: {entry["c"]}, Volume: {entry["v"]}" for entry in klines]
+            [f"Timestamp {entry["t"]}: Open: {entry["o"]}, High: {entry["h"]}, Low: {entry["l"]}, Close: {entry["c"]}, Volume: {entry["v"]}" for entry in klines]
         ) + "\n\n"
     
     depth_str = ""
