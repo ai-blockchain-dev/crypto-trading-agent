@@ -2,7 +2,7 @@ from typing import Annotated, Dict
 from .blockbeats_utils import fetch_news_from_blockbeats
 from .coindesk_utils import fetch_news_from_coindesk
 from .coinstats_utils import *
-from .reddit_utils import fetch_top_from_category
+from .reddit_utils import fetch_posts_from_reddit
 from .googlenews_utils import *
 from .binance_utils import *
 from .alternativeme_utils import fetch_fear_and_greed_from_alternativeme
@@ -167,114 +167,33 @@ def get_google_news(
 
     return f"## {query} Google News, from {before} to {curr_date}:\n\n{news_str}"
 
-def get_reddit_global_news(
-    start_date: Annotated[str, "Start date in yyyy-mm-dd format"],
-    look_back_days: Annotated[int, "how many days to look back"],
-    max_limit_per_day: Annotated[int, "Maximum number of news per day"],
+def get_reddit_posts(
+    symbol: Annotated[str, "ticker symbol of the asset"],
+    subreddit_name: Annotated[str, "name of the subreddit to fetch posts from, e.g., 'CryptoCurrency', 'CryptoMarkets', 'all'"],
+    sort: Annotated[str, "sorting method for posts ('hot', 'new', 'top', etc.)", "default is 'hot'"] = "hot",
+    limit: Annotated[int, "maximum number of posts to fetch, default is 25"] = 25,
 ) -> str:
     """
-    Retrieve the latest top reddit news
+    Fetch top posts from a specified subreddit.
+
     Args:
-        start_date: Start date in yyyy-mm-dd format
-        end_date: End date in yyyy-mm-dd format
+        symbol (str): The ticker symbol of the asset to filter posts.
+        subreddit_name (str): The name of the subreddit to fetch posts from.
+        sort (str): The sorting method for posts ('hot', 'new', 'top', etc.).
+        limit (int): The maximum number of posts to fetch.
+
     Returns:
-        str: A formatted dataframe containing the latest news articles posts on reddit and meta information in these columns: "created_utc", "id", "title", "selftext", "score", "num_comments", "url"
+        str: A formatted string containing the top posts from the subreddit.
     """
-
-    start_date = datetime.strptime(start_date, "%Y-%m-%d")
-    before = start_date - relativedelta(days=look_back_days)
-    before = before.strftime("%Y-%m-%d")
-
-    posts = []
-    # iterate from start_date to end_date
-    curr_date = datetime.strptime(before, "%Y-%m-%d")
-
-    total_iterations = (start_date - curr_date).days + 1
-    pbar = tqdm(desc=f"Getting Global News on {start_date}", total=total_iterations)
-
-    while curr_date <= start_date:
-        curr_date_str = curr_date.strftime("%Y-%m-%d")
-        fetch_result = fetch_top_from_category(
-            "global_news",
-            curr_date_str,
-            max_limit_per_day,
-            data_path=os.path.join(DATA_DIR, "reddit_data"),
-        )
-        posts.extend(fetch_result)
-        curr_date += relativedelta(days=1)
-        pbar.update(1)
-
-    pbar.close()
-
+    posts = fetch_posts_from_reddit(symbol, subreddit_name, sort, limit)
     if len(posts) == 0:
         return ""
 
-    news_str = ""
+    posts_str = ""
     for post in posts:
-        if post["content"] == "":
-            news_str += f"### {post['title']}\n\n"
-        else:
-            news_str += f"### {post['title']}\n\n{post['content']}\n\n"
+        posts_str += f"### {post['title']} (score: {post['score']}, created at: {datetime.utcfromtimestamp(post['created_utc']).strftime('%Y-%m-%d %H:%M:%S')})\n{post['content']}\n\n"
 
-    return f"## Global News Reddit, from {before} to {curr_date}:\n{news_str}"
-
-def get_reddit_asset_news(
-    ticker: Annotated[str, "ticker symbol of the asset"],
-    start_date: Annotated[str, "Start date in yyyy-mm-dd format"],
-    look_back_days: Annotated[int, "how many days to look back"],
-    max_limit_per_day: Annotated[int, "Maximum number of news per day"],
-) -> str:
-    """
-    Retrieve the latest top reddit news
-    Args:
-        ticker: ticker symbol of the asset
-        start_date: Start date in yyyy-mm-dd format
-        end_date: End date in yyyy-mm-dd format
-    Returns:
-        str: A formatted dataframe containing the latest news articles posts on reddit and meta information in these columns: "created_utc", "id", "title", "selftext", "score", "num_comments", "url"
-    """
-
-    start_date = datetime.strptime(start_date, "%Y-%m-%d")
-    before = start_date - relativedelta(days=look_back_days)
-    before = before.strftime("%Y-%m-%d")
-
-    posts = []
-    # iterate from start_date to end_date
-    curr_date = datetime.strptime(before, "%Y-%m-%d")
-
-    total_iterations = (start_date - curr_date).days + 1
-    pbar = tqdm(
-        desc=f"Getting Asset News for {ticker} on {start_date}",
-        total=total_iterations,
-    )
-
-    while curr_date <= start_date:
-        curr_date_str = curr_date.strftime("%Y-%m-%d")
-        fetch_result = fetch_top_from_category(
-            "asset_news",
-            curr_date_str,
-            max_limit_per_day,
-            ticker,
-            data_path=os.path.join(DATA_DIR, "reddit_data"),
-        )
-        posts.extend(fetch_result)
-        curr_date += relativedelta(days=1)
-
-        pbar.update(1)
-
-    pbar.close()
-
-    if len(posts) == 0:
-        return ""
-
-    news_str = ""
-    for post in posts:
-        if post["content"] == "":
-            news_str += f"### {post['title']}\n\n"
-        else:
-            news_str += f"### {post['title']}\n\n{post['content']}\n\n"
-
-    return f"##{ticker} News Reddit, from {before} to {curr_date}:\n\n{news_str}"
+    return f"## Reddit Posts in r/{subreddit_name} for {symbol}:\n{posts_str}"
 
 def get_binance_ohlcv(
     symbol: Annotated[str, "ticker symbol of the asset"],

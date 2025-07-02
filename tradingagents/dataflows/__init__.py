@@ -9,8 +9,7 @@ from .interface import (
     get_coinstats_news,
     get_google_news,
     get_fear_and_greed_index,
-    get_reddit_global_news,
-    get_reddit_asset_news,
+    get_reddit_posts,
     # Financial statements functions
     # TODO
     # Technical analysis functions
@@ -28,8 +27,7 @@ __all__ = [
     "get_coinstats_news",
     "get_google_news",
     "get_fear_and_greed_index",
-    "get_reddit_global_news",
-    "get_reddit_asset_news",
+    "get_reddit_posts",
     # Financial statements functions
     # TODO
     # Technical analysis functions

@@ -126,8 +126,8 @@ class TradingAgentsGraph:
                     self.toolkit.get_binance_ohlcv,
                     self.toolkit.get_fear_and_greed_index,
                     self.toolkit.get_coinstats_btc_dominance,
+                    self.toolkit.get_reddit_posts,
                     # self.toolkit.get_stock_news_openai,
-                    # self.toolkit.get_reddit_stock_info,
                 ]
             ),
             "news": ToolNode(
@@ -138,7 +138,6 @@ class TradingAgentsGraph:
                     # self.toolkit.get_google_news,
                     self.toolkit.get_blockbeats_news,
                     self.toolkit.get_coindesk_news,
-                    # self.toolkit.get_reddit_news,
                 ]
             ),
             "fundamentals": ToolNode(

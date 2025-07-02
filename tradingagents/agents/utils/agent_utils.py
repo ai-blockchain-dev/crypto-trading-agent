@@ -207,42 +207,24 @@ class Toolkit:
 
     @staticmethod
     @tool
-    def get_reddit_news(
-        curr_date: Annotated[str, "Date you want to get news for in yyyy-mm-dd format"],
+    def get_reddit_posts(
+        symbol: Annotated[str, "Ticker symbol of the asset, e.g. 'BTC'"],
+        subreddit: Annotated[str, "Subreddit to search in, e.g. 'CryptoCurrency', 'CryptoMarkets', 'all'"] = "CryptoCurrency",
+        sort: Annotated[str, "Sorting method for posts ('hot', 'new', 'top', etc.)"] = "hot",
+        limit: Annotated[int, "Maximum number of posts to fetch"] = 25,
     ) -> str:
         """
-        Retrieve global news from Reddit within a specified time frame.
+        Fetch top posts from a specified subreddit related to a given ticker symbol.
         Args:
-            curr_date (str): Date you want to get news for in yyyy-mm-dd format
+            symbol (str): Ticker symbol of the asset, e.g. 'BTC'
+            subreddit (str): Subreddit to search in, e.g. 'CryptoCurrency', 'CryptoMarkets', 'all'
+            sort (str): Sorting method for posts ('hot', 'new', 'top', etc.)
+            limit (int): Maximum number of posts to fetch
         Returns:
-            str: A formatted dataframe containing the latest global news from Reddit in the specified time frame.
+            str: A formatted string containing the top posts from the specified subreddit related to the ticker symbol.
         """
-        
-        global_news_result = interface.get_reddit_global_news(curr_date, 7, 5)
-
-        return global_news_result
-
-    @staticmethod
-    @tool
-    def get_reddit_stock_info(
-        ticker: Annotated[
-            str,
-            "Ticker of a asset. e.g. AAPL, TSM",
-        ],
-        curr_date: Annotated[str, "Current date you want to get news for"],
-    ) -> str:
-        """
-        Retrieve the latest news about a given stock from Reddit, given the current date.
-        Args:
-            ticker (str): Ticker of a asset. e.g. AAPL, TSM
-            curr_date (str): current date in yyyy-mm-dd format to get news for
-        Returns:
-            str: A formatted dataframe containing the latest news about the asset on the given date
-        """
-
-        stock_news_results = interface.get_reddit_asset_news(ticker, curr_date, 7, 5)
-
-        return stock_news_results
+        reddit_posts_result = interface.get_reddit_posts(symbol, subreddit, sort, limit)
+        return reddit_posts_result
 
     @staticmethod
     @tool
