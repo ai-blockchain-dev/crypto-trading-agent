@@ -60,7 +60,7 @@ LANG = {
     "step7_prompt": "请选择用于简单分析的思考代理",
     "step8_title": "步骤8：思考代理",
     "step8_prompt": "请选择用于深度分析的思考代理",
-    "default_ticker": "SPY",
+    "default_ticker": "BTC",
     "ticker_validate": "请输入有效的资产代码。",
     "date_validate": "请输入有效的日期，格式为YYYY-MM-DD。",
     "analyst_instruction": "\n- 空格选择/取消分析师\n- 'a' 全选/取消全选\n- 回车确认",

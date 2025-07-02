@@ -60,7 +60,7 @@ LANG = {
     "step7_prompt": "Select your thinking agents for analysis",
     "step8_title": "Step 8: Thinking Agents",
     "step8_prompt": "Select your thinking agents for analysis",
-    "default_ticker": "SPY",
+    "default_ticker": "BTC",
     "ticker_validate": "Please enter a valid ticker symbol.",
     "date_validate": "Please enter a valid date in YYYY-MM-DD format.",
     "analyst_instruction": "\n- Press Space to select/unselect analysts\n- Press 'a' to select/unselect all\n- Press Enter when done",
