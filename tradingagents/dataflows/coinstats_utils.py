@@ -14,7 +14,7 @@ def fetch_btc_dominance_from_coinstats():
     
     headers = {
         "accept": "application/json",
-        "X-API-KEY": "Sk4n/ND4vD5w6KXs3PUAaQmFfa9dqzcaBEbB1eh9j+g="#os.getenv("COINSTATS_API_KEY")
+        "X-API-KEY": os.getenv("COINSTATS_API_KEY")
     }
 
     response_24h = requests.get(url_24h, headers=headers)
@@ -40,7 +40,7 @@ def fetch_news_from_coinstats():
     url = "https://openapiv1.coinstats.app/news/type/latest?page=1&limit=20"
     headers = {
         "accept": "application/json",
-        "X-API-KEY": "Sk4n/ND4vD5w6KXs3PUAaQmFfa9dqzcaBEbB1eh9j+g="#os.getenv("COINSTATS_API_KEY")
+        "X-API-KEY": os.getenv("COINSTATS_API_KEY")
     }
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
