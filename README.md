@@ -1,23 +1,8 @@
 # Crypto Trading Agents
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-0.1.0--preview-yellow.svg)](./VERSION)
-[![Docs](https://img.shields.io/badge/Docs-中文文档-green.svg)](./README-CN.md)
-[![Original](https://img.shields.io/badge/Base%20On-TauricResearch/TradingAgents-orange.svg)](https://github.com/TauricResearch/TradingAgents)
-[![Paper](https://img.shields.io/badge/Paper-arxiv%202412.20138-blue.svg)](https://arxiv.org/pdf/2412.20138)
 
-[中文文档](./README-CN.md)
 
-## 🙏 Acknowledgements
-This project is based on [TradingAgents](https://github.com/TauricResearch/TradingAgents) by the [Tauric Research](https://github.com/TauricResearch) team, as well as the paper [arxiv.org/pdf/2412.20138](https://arxiv.org/pdf/2412.20138).
-We extend our sincere thanks for their contributions!
 
-In addition, the following authors and repositories also inspired this project:
-| Author | Repository |
-| --- | --- |
-| [@delenzhang](https://github.com/delenzhang) | [TradingAgents](https://github.com/delenzhang/TradingAgents) |
-| [@hsliuping](https://github.com/hsliuping)   | [TradingAgents-CN](https://github.com/hsliuping/TradingAgents-CN) |
 
 ## ✨ Key Features
 💰 **Crypto-Focused**  
@@ -43,7 +28,7 @@ Easily modify or add new data sources. A detailed guide is provided to help you 
 ### Installation
 Clone the repository:
 ```sh
-git clone https://github.com/Tomortec/CryptoTradingAgents.git
+git clone https://github.com/ai-blockchain-dev/CryptoTradingAgents.git
 cd TradingAgents
 ```
 
