@@ -119,14 +119,3 @@ See [`./tradingagents/dataflows/README.md`](./tradingagents/dataflows/README.md)
 
 ---
 
-## ⚠️ Disclaimer
-
-**This is research software, not financial advice.** Use at your own risk. Always do your own research before making trading decisions.
-
----
-
-## 🤝 Contributing
-
-We love contributions! Found a bug? Want a feature? Have ideas? Open an issue or submit a PR.
-
-**⭐ Star us if this project helps you! ⭐**
