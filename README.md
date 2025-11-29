@@ -24,8 +24,8 @@ Easily modify or add new data sources. A detailed guide is provided to help you 
 ### Installation
 Clone the repository:
 ```sh
-git clone https://github.com/Tomortec/CryptoTradingAgents.git
-cd TradingAgents
+git clone https://github.com/ai-blockchain-dev/crypto-trading-agent.git
+cd crypto-trading-agent
 ```
 
 Create a virtual environment:
